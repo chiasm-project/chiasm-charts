@@ -7,9 +7,11 @@ function myApp(){
   chiasm.plugins.links = require("chiasm-links");
   chiasm.plugins.dsvDataset = require("chiasm-dsv-dataset");
 
-  chiasm.plugins.scatterPlot = require("./scatterPlot");
-  chiasm.plugins.lineChart = require("./lineChart");
-  chiasm.plugins.barChart = require("./barChart");
+  // TODO require only a single module here, which will be
+  // published as the npm package "chiasm-charts".
+  chiasm.plugins.scatterPlot = require("../src/scatterPlot");
+  chiasm.plugins.lineChart = require("../src/lineChart");
+  chiasm.plugins.barChart = require("../src/barChart");
 
   chiasm.setConfig({
     "layout": {
