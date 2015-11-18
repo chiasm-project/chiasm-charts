@@ -1,20 +1,24 @@
 var Model = require("model-js");
 var ChiasmComponent = require("chiasm-component");
-var mixins = require("./mixins");
+var mixins = require("../mixins");
 
-function ScatterPlot(){
+function LineChart(){
 
   var my = new ChiasmComponent({
     xColumn: Model.None,
     yColumn: Model.None,
-    circleRadius: 5
+    lineStroke: "black",
+    lineStrokeWidth: "1px"
   });
 
   var svg = d3.select(my.initSVG());
   var g = mixins.marginConvention(my, svg);
 
+  var line = d3.svg.line().interpolate("basis");
+  var path = g.append("path").attr("fill", "none");
+
   var xAxisG = mixins.xAxis(my, g);
-  mixins.xScaleLinear(my);
+  mixins.xScaleTime(my);
   mixins.xAxisLabel(my, xAxisG);
 
   var yAxisG = mixins.yAxis(my, g);
@@ -33,21 +37,26 @@ function ScatterPlot(){
     }
   });
 
-  my.when(["data", "xScale", "xColumn", "yScale", "yColumn", "circleRadius"],
-      function (data, xScale, xColumn, yScale, yColumn, circleRadius) {
+  my.when(["data", "xScale", "xColumn", "yScale", "yColumn"],
+      function (data, xScale, xColumn, yScale, yColumn) {
 
-    var circles = g.selectAll("circle").data(data);
-    circles.enter().append("circle");
-    circles.exit().remove();
+    line
+      .x(function(d) { return xScale(d[xColumn]); })
+      .y(function(d) { return yScale(d[yColumn]); });
 
-    circles
-      .attr("cx", function (d){ return xScale(d[xColumn]); })
-      .attr("cy", function (d){ return yScale(d[yColumn]); })
-      .attr("r", circleRadius);
+    path.attr("d", line(data));
 
+  });
+
+  my.when("lineStroke", function (lineStroke){
+    path.attr("stroke", lineStroke);
+  });
+
+  my.when("lineStrokeWidth", function (lineStrokeWidth){
+    path.attr("stroke-width", lineStrokeWidth);
   });
 
   return my;
 }
 
-module.exports = ScatterPlot;
+module.exports = LineChart;

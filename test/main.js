@@ -1,5 +1,8 @@
 var Chiasm = require("chiasm");
 
+// This is the module published as the npm package "chiasm-charts".
+var Charts = require("../src");
+
 function myApp(){
   var chiasm = new Chiasm();
 
@@ -7,11 +10,11 @@ function myApp(){
   chiasm.plugins.links = require("chiasm-links");
   chiasm.plugins.dsvDataset = require("chiasm-dsv-dataset");
 
-  // TODO require only a single module here, which will be
-  // published as the npm package "chiasm-charts".
-  chiasm.plugins.scatterPlot = require("../src/scatterPlot");
-  chiasm.plugins.lineChart = require("../src/lineChart");
-  chiasm.plugins.barChart = require("../src/barChart");
+  // TODO add an API to Chiasm that supports registering multiple plugins simultaneously.
+  // e.g. chiasm.registerPlugins(Charts.components);
+  chiasm.plugins.scatterPlot = Charts.components.scatterPlot;
+  chiasm.plugins.lineChart = Charts.components.lineChart;
+  chiasm.plugins.barChart = Charts.components.barChart;
 
   chiasm.setConfig({
     "layout": {

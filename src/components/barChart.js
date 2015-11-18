@@ -1,6 +1,6 @@
 var Model = require("model-js");
 var ChiasmComponent = require("chiasm-component");
-var mixins = require("./mixins");
+var mixins = require("../mixins");
 
 function BarChart(){
 
