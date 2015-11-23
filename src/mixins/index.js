@@ -14,7 +14,7 @@ function marginConvention(my, svg){
   return g;
 }
 
-function scale(my, prefix){
+function scale(my, prefix, initialScaleType){
 
   var scaleName    = prefix + "Scale";
   var scaleDomain  = prefix + "ScaleDomain";
@@ -25,6 +25,10 @@ function scale(my, prefix){
   if(prefix === "x"){
     my.when("width", function (width){
       my[scaleRange] = [0, width];
+    });
+  } else if(prefix === "y"){
+    my.when("height", function (height){
+      my[scaleRange] = [height, 0];
     });
   }
 
@@ -50,7 +54,7 @@ function scale(my, prefix){
   };
 
   my.addPublicProperty(scaleDomain, [0, 1000]);
-  my.addPublicProperty(scaleType, "linear");
+  my.addPublicProperty(scaleType, initialScaleType);
 
   // This property is relevant only for ordinal scales.
   my.addPublicProperty(scalePadding, 0.1);
@@ -65,28 +69,20 @@ function scale(my, prefix){
   });
 }
 
-
 function xScaleLinear(my){
-  scale(my, "x");
-  my.xScaleType = "linear";
+  scale(my, "x", "linear");
 }
 
 function xScaleOrdinal(my){
-  scale(my, "x");
-  my.xScaleType = "ordinal";
+  scale(my, "x", "ordinal");
 }
 
 function xScaleTime(my){
-  scale(my, "x");
-  my.xScaleType = "time";
+  scale(my, "x", "time");
 }
 
 function yScaleLinear(my){
-  var scale = d3.scale.linear();
-  my.addPublicProperty("yScaleDomain", [0, 1000]);
-  my.when(["yScaleDomain", "height"], function (yScaleDomain, height){
-    my.yScale = scale.domain(yScaleDomain).range([height, 0]);
-  });
+  scale(my, "y", "linear");
 }
 
 function xAxis(my, g){
@@ -155,6 +151,7 @@ function yAxisLabel(my, yAxisG){
 
 module.exports = {
   marginConvention: marginConvention,
+  scale: scale,
   xScaleLinear: xScaleLinear,
   xScaleOrdinal: xScaleOrdinal,
   xScaleTime: xScaleTime,
