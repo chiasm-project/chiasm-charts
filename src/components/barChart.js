@@ -13,12 +13,13 @@ function BarChart(){
   var g = mixins.marginConvention(my, svg);
 
   var xAxisG = mixins.xAxis(my, g);
-  mixins.xScaleOrdinal(my);
+  mixins.scale(my, "x", "ordinal");
   mixins.xAxisLabel(my, xAxisG);
 
   var yAxisG = mixins.yAxis(my, g);
-  mixins.yScaleLinear(my);
+  mixins.scale(my, "y", "linear");
   mixins.yAxisLabel(my, yAxisG);
+
 
   my.when(["data", "xColumn"], function (data, xColumn){
     if(xColumn !== Model.None){

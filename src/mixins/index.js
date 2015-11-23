@@ -152,10 +152,6 @@ function yAxisLabel(my, yAxisG){
 module.exports = {
   marginConvention: marginConvention,
   scale: scale,
-  xScaleLinear: xScaleLinear,
-  xScaleOrdinal: xScaleOrdinal,
-  xScaleTime: xScaleTime,
-  yScaleLinear: yScaleLinear,
   xAxis: xAxis,
   xAxisLabel: xAxisLabel,
   yAxis: yAxis,

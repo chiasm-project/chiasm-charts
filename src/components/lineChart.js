@@ -18,11 +18,11 @@ function LineChart(){
   var path = g.append("path").attr("fill", "none");
 
   var xAxisG = mixins.xAxis(my, g);
-  mixins.xScaleTime(my);
+  mixins.scale(my, "x", "time");
   mixins.xAxisLabel(my, xAxisG);
 
   var yAxisG = mixins.yAxis(my, g);
-  mixins.yScaleLinear(my);
+  mixins.scale(my, "y", "linear");
   mixins.yAxisLabel(my, yAxisG);
 
   my.when(["data", "xColumn"], function (data, xColumn){
