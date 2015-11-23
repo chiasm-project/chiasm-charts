@@ -14,31 +14,58 @@ function marginConvention(my, svg){
   return g;
 }
 
-function xScaleLinear(my){
-  var scale = d3.scale.linear();
+function xScale(my){
+  var scaleTypes = {
+    linear: function (my){
+      var scale = d3.scale.linear();
+      return my.when(["xScaleDomain", "width"], function (xScaleDomain, width){
+        my.xScale = scale.domain(xScaleDomain).range([0, width]);
+      });
+    },
+    ordinal: function (my){
+      var scale = d3.scale.ordinal();
+      return my.when(["xScaleDomain", "width", "xScaleRangePadding"], function (xScaleDomain, width, xScaleRangePadding){
+        my.xScale = scale.domain(xScaleDomain).rangeBands([0, width], xScaleRangePadding);
+      });
+    },
+    time: function (my){
+      var scale = d3.time.scale();
+      return my.when(["xScaleDomain", "width"], function (xScaleDomain, width){
+        my.xScale = scale.domain(xScaleDomain).range([0, width]);
+      });
+    }
+  };
+
   my.addPublicProperty("xScaleDomain", [0, 1000]);
-  my.when(["xScaleDomain", "width"], function (xScaleDomain, width){
-    my.xScale = scale.domain(xScaleDomain).range([0, width]);
+  my.addPublicProperty("xScaleType", "linear");
+
+  // This property is relevant only for ordinal scales.
+  my.addPublicProperty("xScaleRangePadding", 0.1);
+
+  var oldListener;
+  my.when("xScaleType", function (scaleType){
+
+    // TODO add tests for this line.
+    if(oldListener){ my.cancel(oldListener); }
+
+    oldListener = scaleTypes[scaleType](my);
   });
+}
+
+
+function xScaleLinear(my){
+  xScale(my);
+  my.xScaleType = "linear";
 }
 
 function xScaleOrdinal(my){
-  var scale = d3.scale.ordinal();
-  my.addPublicProperty("xScaleDomain", [0, 1000]);
-  my.addPublicProperty("xScaleRangePadding", 0.1);
-  my.when(["xScaleDomain", "width", "xScaleRangePadding"], function (xScaleDomain, width, xScaleRangePadding){
-    my.xScale = scale
-      .domain(xScaleDomain)
-      .rangeBands([0, width], xScaleRangePadding);
-  });
+  xScale(my);
+  my.xScaleType = "ordinal";
 }
 
 function xScaleTime(my){
-  var scale = d3.time.scale();
-  my.addPublicProperty("xScaleDomain", [0, 1000]);
-  my.when(["xScaleDomain", "width"], function (xScaleDomain, width){
-    my.xScale = scale.domain(xScaleDomain).range([0, width]);
-  });
+  xScale(my);
+  my.xScaleType = "time";
 }
 
 function yScaleLinear(my){
