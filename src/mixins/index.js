@@ -14,57 +14,70 @@ function marginConvention(my, svg){
   return g;
 }
 
-function xScale(my){
+function scale(my, prefix){
+
+  var scaleName    = prefix + "Scale";
+  var scaleDomain  = prefix + "ScaleDomain";
+  var scaleRange   = prefix + "ScaleRange";
+  var scalePadding = prefix + "ScaleRangePadding"
+  var scaleType    = prefix + "ScaleType";
+
+  if(prefix === "x"){
+    my.when("width", function (width){
+      my[scaleRange] = [0, width];
+    });
+  }
+
   var scaleTypes = {
     linear: function (my){
-      var scale = d3.scale.linear();
-      return my.when(["xScaleDomain", "width"], function (xScaleDomain, width){
-        my.xScale = scale.domain(xScaleDomain).range([0, width]);
+      var myScale = d3.scale.linear();
+      return my.when([scaleDomain, scaleRange], function (domain, range){
+        my[scaleName] = myScale.domain(domain).range(range);
       });
     },
     ordinal: function (my){
-      var scale = d3.scale.ordinal();
-      return my.when(["xScaleDomain", "width", "xScaleRangePadding"], function (xScaleDomain, width, xScaleRangePadding){
-        my.xScale = scale.domain(xScaleDomain).rangeBands([0, width], xScaleRangePadding);
+      var myScale = d3.scale.ordinal();
+      return my.when([scaleDomain, scaleRange, scalePadding], function (domain, range, padding){
+        my[scaleName] = myScale.domain(domain).rangeBands(range, padding);
       });
     },
     time: function (my){
-      var scale = d3.time.scale();
-      return my.when(["xScaleDomain", "width"], function (xScaleDomain, width){
-        my.xScale = scale.domain(xScaleDomain).range([0, width]);
+      var myScale = d3.time.scale();
+      return my.when([scaleDomain, scaleRange], function (domain, range){
+        my[scaleName] = myScale.domain(domain).range(range);
       });
     }
   };
 
-  my.addPublicProperty("xScaleDomain", [0, 1000]);
-  my.addPublicProperty("xScaleType", "linear");
+  my.addPublicProperty(scaleDomain, [0, 1000]);
+  my.addPublicProperty(scaleType, "linear");
 
   // This property is relevant only for ordinal scales.
-  my.addPublicProperty("xScaleRangePadding", 0.1);
+  my.addPublicProperty(scalePadding, 0.1);
 
   var oldListener;
-  my.when("xScaleType", function (scaleType){
+  my.when(scaleType, function (type){
 
     // TODO add tests for this line.
     if(oldListener){ my.cancel(oldListener); }
 
-    oldListener = scaleTypes[scaleType](my);
+    oldListener = scaleTypes[type](my);
   });
 }
 
 
 function xScaleLinear(my){
-  xScale(my);
+  scale(my, "x");
   my.xScaleType = "linear";
 }
 
 function xScaleOrdinal(my){
-  xScale(my);
+  scale(my, "x");
   my.xScaleType = "ordinal";
 }
 
 function xScaleTime(my){
-  xScale(my);
+  scale(my, "x");
   my.xScaleType = "time";
 }
 
