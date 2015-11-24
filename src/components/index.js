@@ -1,5 +1,6 @@
 module.exports = {
   barChart: require("./barChart"),
   lineChart: require("./lineChart"),
-  scatterPlot: require("./scatterPlot")
+  scatterPlot: require("./scatterPlot"),
+  boxPlot: require("./boxPlot")
 };

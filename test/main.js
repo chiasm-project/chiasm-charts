@@ -15,6 +15,7 @@ function myApp(){
   chiasm.plugins.scatterPlot = Charts.components.scatterPlot;
   chiasm.plugins.lineChart = Charts.components.lineChart;
   chiasm.plugins.barChart = Charts.components.barChart;
+  chiasm.plugins.boxPlot = Charts.components.boxPlot;
 
   chiasm.setConfig({
     "layout": {
@@ -27,7 +28,11 @@ function myApp(){
             {
               "orientation": "horizontal",
               "size": 2,
-              "children": [ "myBarChart", "myScatterPlot" ]
+              "children": [
+                "myBarChart",
+                "myScatterPlot",
+                "myBoxPlot"
+              ]
             },
             "myLineChart"
           ]
@@ -70,6 +75,18 @@ function myApp(){
         "margin": { top: 5, right: 20, bottom: 35, left: 50}
       }
     },
+    "myBoxPlot": {
+      "plugin": "boxPlot",
+      "state": {
+        "xAxisLabelText": "Class",
+        "xColumn": "class",
+        "yAxisLabelText": "Sepal Length",
+        "yColumn": "sepal_length",
+        "xAxisLabelTextOffset": 32,
+        "yAxisLabelTextOffset": 30,
+        "margin": { top: 5, right: 20, bottom: 35, left: 50}
+      }
+    },
     "barChartDataLoader": {
       "plugin": "dsvDataset",
       "state": {
@@ -94,6 +111,7 @@ function myApp(){
         "bindings": [
           "lineChartDataLoader.data -> myLineChart.data",
           "scatterPlotDataLoader.data -> myScatterPlot.data",
+          "scatterPlotDataLoader.data -> myBoxPlot.data",
           "barChartDataLoader.data -> myBarChart.data"
         ]
       }
