@@ -1,4 +1,5 @@
 var Chiasm = require("chiasm");
+var ChiasmDataReduction = require("chiasm-data-reduction");
 
 // This is the module published as the npm package "chiasm-charts".
 var Charts = require("../src");
@@ -17,6 +18,8 @@ function myApp(){
   chiasm.plugins.barChart = Charts.components.barChart;
   chiasm.plugins.boxPlot = Charts.components.boxPlot;
 
+  chiasm.plugins.dataReduction = ChiasmDataReduction;
+
   chiasm.setConfig({
     "layout": {
       "plugin": "layout",
@@ -30,6 +33,7 @@ function myApp(){
               "size": 2,
               "children": [
                 "myBarChart",
+                "myHistogram",
                 "myScatterPlot",
                 "myBoxPlot"
               ]
@@ -105,6 +109,34 @@ function myApp(){
         "margin": { top: 5, right: 20, bottom: 35, left: 50}
       }
     },
+    "histogramData": {
+      "plugin": "dataReduction",
+      "state": {
+        "aggregate": {
+          "dimensions": [{
+            "column": "petal_length",
+            "histogram": true,
+            "numBins": 10
+          }],
+          "measures": [{
+            "outColumn": "count", 
+            "operator": "count"
+          }]
+        }
+      }
+    },
+    "myHistogram": {
+      "plugin": "barChart",
+      "state": {
+        "xAxisLabelText": "Petal Length",
+        "xColumn": "petal_length",
+        "yAxisLabelText": "Count",
+        "yColumn": "count",
+        "xAxisLabelTextOffset": 32,
+        "yAxisLabelTextOffset": 30,
+        "margin": { top: 5, right: 20, bottom: 35, left: 50}
+      }
+    },
     "myLinks": {
       "plugin": "links",
       "state": {
@@ -112,10 +144,17 @@ function myApp(){
           "lineChartDataLoader.dataset -> myLineChart.dataset",
           "scatterPlotDataLoader.dataset -> myScatterPlot.dataset",
           "scatterPlotDataLoader.dataset -> myBoxPlot.dataset",
-          "barChartDataLoader.dataset -> myBarChart.dataset"
+          "scatterPlotDataLoader.dataset -> histogramData.datasetIn",
+          "barChartDataLoader.dataset -> myBarChart.dataset",
+          "histogramData.datasetOut -> myHistogram.dataset"
         ]
       }
     }
+  });
+  chiasm.getComponent("myHistogram").then(function (myHistogram){
+    myHistogram.when("dataset", function (dataset){
+      console.log(dataset);
+    });
   });
 }
 myApp();
