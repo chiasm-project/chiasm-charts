@@ -24,24 +24,23 @@ function BoxPlot(){
   mixins.scale(my, "y", "linear");
   mixins.yAxisLabel(my, yAxisG);
 
-
-  my.when(["data", "xColumn"], function (data, xColumn){
+  my.when(["dataset", "xColumn"], function (dataset, xColumn){
     if(xColumn !== Model.None){
-      my.xScaleDomain = data.map( function (d) { return d[xColumn]; });
+      my.xScaleDomain = dataset.data.map( function (d) { return d[xColumn]; });
     }
   });
   
-  my.when(["data", "yColumn"], function (data, yColumn){
+  my.when(["dataset", "yColumn"], function (dataset, yColumn){
     if(yColumn !== Model.None){
-      my.yScaleDomain = d3.extent(data, function (d) { return d[yColumn]; });
+      my.yScaleDomain = d3.extent(dataset.data, function (d) { return d[yColumn]; });
     }
   });
 
-  my.when(["data", "xColumn", "yColumn"], function (data, xColumn, yColumn) {
+  my.when(["dataset", "xColumn", "yColumn"], function (dataset, xColumn, yColumn) {
     if(xColumn !== Model.None && yColumn !== Model.None){
       my.boxPlotData = d3.nest()
         .key(function (d){ return d[xColumn]; })
-        .entries(data)
+        .entries(dataset.data)
         .map(function (d){
           var sorted = d.values
             .map(function (d){ return d[yColumn]; })

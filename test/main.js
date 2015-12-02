@@ -109,10 +109,10 @@ function myApp(){
       "plugin": "links",
       "state": {
         "bindings": [
-          "lineChartDataLoader.data -> myLineChart.data",
-          "scatterPlotDataLoader.data -> myScatterPlot.data",
-          "scatterPlotDataLoader.data -> myBoxPlot.data",
-          "barChartDataLoader.data -> myBarChart.data"
+          "lineChartDataLoader.dataset -> myLineChart.dataset",
+          "scatterPlotDataLoader.dataset -> myScatterPlot.dataset",
+          "scatterPlotDataLoader.dataset -> myBoxPlot.dataset",
+          "barChartDataLoader.dataset -> myBarChart.dataset"
         ]
       }
     }

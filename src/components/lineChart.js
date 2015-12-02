@@ -25,26 +25,26 @@ function LineChart(){
   mixins.scale(my, "y", "linear");
   mixins.yAxisLabel(my, yAxisG);
 
-  my.when(["data", "xColumn"], function (data, xColumn){
+  my.when(["dataset", "xColumn"], function (dataset, xColumn){
     if(xColumn !== Model.None){
-      my.xScaleDomain = d3.extent(data, function (d) { return d[xColumn]; });
+      my.xScaleDomain = d3.extent(dataset.data, function (d) { return d[xColumn]; });
     }
   });
   
-  my.when(["data", "yColumn"], function (data, yColumn){
+  my.when(["dataset", "yColumn"], function (dataset, yColumn){
     if(yColumn !== Model.None){
-      my.yScaleDomain = d3.extent(data, function (d) { return d[yColumn]; });
+      my.yScaleDomain = d3.extent(dataset.data, function (d) { return d[yColumn]; });
     }
   });
 
-  my.when(["data", "xScale", "xColumn", "yScale", "yColumn"],
-      function (data, xScale, xColumn, yScale, yColumn) {
+  my.when(["dataset", "xScale", "xColumn", "yScale", "yColumn"],
+      function (dataset, xScale, xColumn, yScale, yColumn) {
 
     line
       .x(function(d) { return xScale(d[xColumn]); })
       .y(function(d) { return yScale(d[yColumn]); });
 
-    path.attr("d", line(data));
+    path.attr("d", line(dataset.data));
 
   });
 

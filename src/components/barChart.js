@@ -21,22 +21,22 @@ function BarChart(){
   mixins.yAxisLabel(my, yAxisG);
 
 
-  my.when(["data", "xColumn"], function (data, xColumn){
+  my.when(["dataset", "xColumn"], function (dataset, xColumn){
     if(xColumn !== Model.None){
-      my.xScaleDomain = data.map( function (d) { return d[xColumn]; });
+      my.xScaleDomain = dataset.data.map( function (d) { return d[xColumn]; });
     }
   });
   
-  my.when(["data", "yColumn"], function (data, yColumn){
+  my.when(["dataset", "yColumn"], function (dataset, yColumn){
     if(yColumn !== Model.None){
-      my.yScaleDomain = [0, d3.max(data, function (d) { return d[yColumn]; })];
+      my.yScaleDomain = [0, d3.max(dataset.data, function (d) { return d[yColumn]; })];
     }
   });
 
-  my.when(["data", "xScale", "xColumn", "yScale", "yColumn", "height"],
-      function (data, xScale, xColumn, yScale, yColumn, height) {
+  my.when(["dataset", "xScale", "xColumn", "yScale", "yColumn", "height"],
+      function (dataset, xScale, xColumn, yScale, yColumn, height) {
 
-    var bars = g.selectAll("rect").data(data);
+    var bars = g.selectAll("rect").data(dataset.data);
       bars.enter().append("rect");
       bars.exit().remove();
       bars

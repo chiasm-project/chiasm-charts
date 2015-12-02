@@ -21,22 +21,22 @@ function ScatterPlot(){
   var yAxisG = mixins.yAxis(my, g);
   mixins.yAxisLabel(my, yAxisG);
 
-  my.when(["data", "xColumn"], function (data, xColumn){
+  my.when(["dataset", "xColumn"], function (dataset, xColumn){
     if(xColumn !== Model.None){
-      my.xScaleDomain = d3.extent(data, function (d) { return d[xColumn]; });
+      my.xScaleDomain = d3.extent(dataset.data, function (d) { return d[xColumn]; });
     }
   });
   
-  my.when(["data", "yColumn"], function (data, yColumn){
+  my.when(["dataset", "yColumn"], function (dataset, yColumn){
     if(yColumn !== Model.None){
-      my.yScaleDomain = d3.extent(data, function (d) { return d[yColumn]; });
+      my.yScaleDomain = d3.extent(dataset.data, function (d) { return d[yColumn]; });
     }
   });
 
-  my.when(["data", "xScale", "xColumn", "yScale", "yColumn", "circleRadius"],
-      function (data, xScale, xColumn, yScale, yColumn, circleRadius) {
+  my.when(["dataset", "xScale", "xColumn", "yScale", "yColumn", "circleRadius"],
+      function (dataset, xScale, xColumn, yScale, yColumn, circleRadius) {
 
-    var circles = g.selectAll("circle").data(data);
+    var circles = g.selectAll("circle").data(dataset.data);
     circles.enter().append("circle");
     circles.exit().remove();
 
