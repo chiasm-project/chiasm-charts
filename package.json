@@ -12,6 +12,7 @@
   "dependencies": {
     "chiasm": "^0.2.3",
     "chiasm-component": "^0.2.3",
+    "chiasm-dataset": "^0.1.1",
     "d3": "^3.5.6",
     "model-js": "^0.2.4"
   },

@@ -1,14 +1,8 @@
 var Model = require("model-js");
 var ChiasmComponent = require("chiasm-component");
 var mixins = require("../mixins");
-
-
-// TODO move this into ChiasmDataset
-function getColumnMetadata(dataset, columnName){
-  return dataset.metadata.columns.filter(function (column){
-    return column.name === columnName;
-  })[0];
-}
+var ChiasmDataset = require("chiasm-dataset");
+var getColumnMetadata = ChiasmDataset.getColumnMetadata;
 
 function BarChart(){
 
