@@ -2,6 +2,14 @@ var Model = require("model-js");
 var ChiasmComponent = require("chiasm-component");
 var mixins = require("../mixins");
 
+
+// TODO move this into ChiasmDataset
+function getColumnMetadata(dataset, columnName){
+  return dataset.metadata.columns.filter(function (column){
+    return column.name === columnName;
+  })[0];
+}
+
 function BarChart(){
 
   var my = new ChiasmComponent({
@@ -20,10 +28,17 @@ function BarChart(){
   mixins.scale(my, "y", "linear");
   mixins.yAxisLabel(my, yAxisG);
 
-
   my.when(["dataset", "xColumn"], function (dataset, xColumn){
     if(xColumn !== Model.None){
-      my.xScaleDomain = dataset.data.map( function (d) { return d[xColumn]; });
+      var interval = getColumnMetadata(dataset, xColumn).interval;
+      if(interval){
+        my.xScaleType = "linear";
+        my.xScaleDomain = d3.extent(dataset.data, function (d) { return d[xColumn]; });
+        my.xScaleDomain[1] += interval;
+      } else {
+        my.xScaleType = "ordinal";
+        my.xScaleDomain = dataset.data.map( function (d) { return d[xColumn]; });
+      }
     }
   });
   
@@ -36,12 +51,20 @@ function BarChart(){
   my.when(["dataset", "xScale", "xColumn", "yScale", "yColumn", "height"],
       function (dataset, xScale, xColumn, yScale, yColumn, height) {
 
+    var barWidth;
+    var interval = getColumnMetadata(dataset, xColumn).interval;
+    if(interval){
+      barWidth = xScale(interval) - xScale(0);
+    } else {
+      barWidth = xScale.rangeBand();
+    }
+
     var bars = g.selectAll("rect").data(dataset.data);
       bars.enter().append("rect");
       bars.exit().remove();
       bars
         .attr("x", function (d){ return xScale(d[xColumn]); })
-        .attr("width", xScale.rangeBand())
+        .attr("width", barWidth)
         .attr("y", function (d){ return yScale(d[yColumn]); })
         .attr("height", function (d){ return height - yScale(d[yColumn]); });
 

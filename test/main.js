@@ -32,8 +32,13 @@ function myApp(){
               "orientation": "horizontal",
               "size": 2,
               "children": [
-                "myBarChart",
-                "myHistogram",
+                {
+                  "orientation": "vertical",
+                  "children": [
+                    "myBarChart",
+                    "myHistogram"
+                  ]
+                },
                 "myScatterPlot",
                 "myBoxPlot"
               ]
@@ -150,11 +155,6 @@ function myApp(){
         ]
       }
     }
-  });
-  chiasm.getComponent("myHistogram").then(function (myHistogram){
-    myHistogram.when("dataset", function (dataset){
-      console.log(dataset);
-    });
   });
 }
 myApp();

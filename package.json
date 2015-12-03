@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "browserify": "^11.2.0",
-    "chiasm-data-reduction": "^0.2.2",
+    "chiasm-data-reduction": "^0.3.0",
     "chiasm-dsv-dataset": "^0.3.0",
     "chiasm-layout": "^0.2.4",
     "chiasm-links": "^0.2.3",
