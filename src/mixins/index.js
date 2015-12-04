@@ -16,12 +16,12 @@ function marginConvention(my, svg){
 
 function marginEditor(my, svg){
 
-  var drag = d3.behavior.drag()
-//    .on("dragstart", dragStart)
-    .on("drag", dragMove);
+  var drag = d3.behavior.drag().on("drag", dragMove);
 
   var leftRect = svg.append("rect")
-    .style("cursor", "ew-resize");
+    .style("cursor", "ew-resize")
+    .style("fill", "none")
+    .style("pointer-events", "all");
 
   my.when("margin", function (margin){
     drag.origin(function() {
@@ -30,10 +30,11 @@ function marginEditor(my, svg){
     leftRect.call(drag);
   });
 
-  my.addPublicProperty("marginEditorWidth", 10);
-  my.when(["height", "margin", "marginEditorWidth"], function (height, margin, marginEditorWidth){
+  my.addPublicProperty("marginEditorWidth", 20);
+  my.when(["margin", "marginEditorWidth", "height"],
+      function (margin, marginEditorWidth, height){
     leftRect
-      .attr("x", margin.left -marginEditorWidth / 2)
+      .attr("x", margin.left - marginEditorWidth / 2)
       .attr("y", margin.top)
       .attr("width", marginEditorWidth)
       .attr("height", height);
