@@ -72,8 +72,11 @@ function scale(my, prefix, initialScaleType){
     oldListener = scaleTypes[type](my);
   });
 
-  my.when([scaleName, columnName], function (scale, column){
+  my.when(columnName, function (column){
     my[columnAccessor] = function (d){ return d[column]; };
+  });
+
+  my.when([scaleName, columnName], function (scale, column){
     my[scaled] = function (d){ return scale(d[column]); };
   });
 }

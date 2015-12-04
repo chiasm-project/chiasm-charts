@@ -27,32 +27,24 @@ function BoxPlot(){
   mixins.scale(my, "y", "linear");
   mixins.yAxisLabel(my, yAxisG);
 
-  my.when(["dataset", "xColumn"], function (dataset, xColumn){
-    if(xColumn !== Model.None){
-      my.xScaleDomain = dataset.data.map( function (d) { return d[xColumn]; });
-    }
+  my.when(["dataset", "xAccessor"], function (dataset, xAccessor){
+    my.xScaleDomain = dataset.data.map(xAccessor);
   });
   
-  my.when(["dataset", "yColumn"], function (dataset, yColumn){
-    if(yColumn !== Model.None){
-      my.yScaleDomain = d3.extent(dataset.data, function (d) { return d[yColumn]; });
-    }
+  my.when(["dataset", "yAccessor"], function (dataset, yAccessor){
+    my.yScaleDomain = d3.extent(dataset.data, yAccessor);
   });
 
-  my.when(["dataset", "xColumn", "yColumn"], function (dataset, xColumn, yColumn) {
-    if(xColumn !== Model.None && yColumn !== Model.None){
-      my.boxPlotData = d3.nest()
-        .key(function (d){ return d[xColumn]; })
-        .entries(dataset.data)
-        .map(function (d){
-          var sorted = d.values
-            .map(function (d){ return d[yColumn]; })
-            .sort();
-          d.quartileData = quartiles(sorted);
-          d.whiskerData = [sorted[0], sorted[sorted.length - 1]];
-          return d;
-        });
-    }
+  my.when(["dataset", "xAccessor", "yAccessor"], function (dataset, xAccessor, yAccessor) {
+    my.boxPlotData = d3.nest()
+      .key(xAccessor)
+      .entries(dataset.data)
+      .map(function (d){
+        var sorted = d.values.map(yAccessor).sort();
+        d.quartileData = quartiles(sorted);
+        d.whiskerData = [sorted[0], sorted[sorted.length - 1]];
+        return d;
+      });
   });
 
   my.when(["boxPlotData", "xScale", "yScale", "fill", "stroke", "strokeWidth" ],
