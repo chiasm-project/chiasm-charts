@@ -22,6 +22,10 @@ function scale(my, prefix, initialScaleType){
   var scalePadding = prefix + "ScaleRangePadding"
   var scaleType    = prefix + "ScaleType";
 
+  var columnName     = prefix + "Column";
+  var columnAccessor = prefix + "Accessor";
+  var scaled         = prefix + "Scaled";
+
   if(prefix === "x"){
     my.when("width", function (width){
       my[scaleRange] = [0, width];
@@ -66,6 +70,11 @@ function scale(my, prefix, initialScaleType){
     if(oldListener){ my.cancel(oldListener); }
 
     oldListener = scaleTypes[type](my);
+  });
+
+  my.when([scaleName, columnName], function (scale, column){
+    my[columnAccessor] = function (d){ return d[column]; };
+    my[scaled] = function (d){ return scale(d[column]); };
   });
 }
 

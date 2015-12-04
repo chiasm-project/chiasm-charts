@@ -51,16 +51,6 @@ function BarChart(){
     }
   });
 
-  my.when(["xScale", "xColumn"], function (xScale, xColumn){
-    //my.xAccessor = function (d){ return d[xColumn]; });
-    my.xScaled = function (d){ return xScale(d[xColumn]); };
-  });
-
-  my.when(["yScale", "yColumn"], function (yScale, yColumn){
-    //my.yAccessor = function (d){ return d[yColumn]; });
-    my.yScaled = function (d){ return yScale(d[yColumn]); };
-  });
-
   my.when(["dataset", "xScaled", "yScaled", "height", "barWidth"],
       function (dataset, xScaled, yScaled, height, barWidth) {
 
