@@ -33,17 +33,16 @@ function ScatterPlot(){
     }
   });
 
-  my.when(["dataset", "xScale", "xColumn", "yScale", "yColumn", "circleRadius"],
-      function (dataset, xScale, xColumn, yScale, yColumn, circleRadius) {
+  my.when(["dataset", "xScaled", "yScaled", "circleRadius"],
+      function (dataset, xScaled, yScaled, circleRadius) {
 
     var circles = g.selectAll("circle").data(dataset.data);
     circles.enter().append("circle");
-    circles.exit().remove();
-
     circles
-      .attr("cx", function (d){ return xScale(d[xColumn]); })
-      .attr("cy", function (d){ return yScale(d[yColumn]); })
+      .attr("cx", xScaled)
+      .attr("cy", yScaled)
       .attr("r", circleRadius);
+    circles.exit().remove();
 
   });
 
