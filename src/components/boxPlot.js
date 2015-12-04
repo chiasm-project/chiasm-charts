@@ -1,3 +1,6 @@
+// A bot plot component.
+// Draws from this box plot example http://bl.ocks.org/mbostock/4061502
+
 var Model = require("model-js");
 var ChiasmComponent = require("chiasm-component");
 var mixins = require("../mixins");
@@ -121,7 +124,6 @@ function BoxPlot(){
 
   return my;
 }
-
 
 function quartiles(d) {
   return [
