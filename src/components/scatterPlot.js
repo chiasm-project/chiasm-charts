@@ -1,3 +1,4 @@
+var d3 = require("d3");
 var Model = require("model-js");
 var ChiasmComponent = require("chiasm-component");
 var mixins = require("../mixins");
@@ -20,6 +21,8 @@ function ScatterPlot(){
   mixins.scale(my, "y", "linear");
   var yAxisG = mixins.yAxis(my, g);
   mixins.yAxisLabel(my, yAxisG);
+
+  mixins.marginEditor(my, svg);
 
   my.when(["dataset", "xColumn"], function (dataset, xColumn){
     if(xColumn !== Model.None){

@@ -14,6 +14,49 @@ function marginConvention(my, svg){
   return g;
 }
 
+function marginEditor(my, svg){
+
+  var drag = d3.behavior.drag()
+//    .on("dragstart", dragStart)
+    .on("drag", dragMove);
+
+  var leftRect = svg.append("rect")
+    .style("cursor", "ew-resize");
+
+  my.when("margin", function (margin){
+    drag.origin(function() {
+      return { x: margin.left, y: 0 };
+    });
+    leftRect.call(drag);
+  });
+
+  my.addPublicProperty("marginEditorWidth", 10);
+  my.when(["height", "margin", "marginEditorWidth"], function (height, margin, marginEditorWidth){
+    leftRect
+      .attr("x", margin.left -marginEditorWidth / 2)
+      .attr("y", margin.top)
+      .attr("width", marginEditorWidth)
+      .attr("height", height);
+  });
+  
+  function dragMove(d) {
+    
+    // Get the updated X location computed by the drag behavior.
+    var x = d3.event.x;
+    
+    // Constrain x to be between x1 and x2 (the ends of the line).
+    //x = x < x1 ? x1 : x > x2 ? x2 : x;
+    
+    // This assignment is necessary for multiple drag gestures.
+    // It makes the drag.origin function yield the correct value.
+    //d.x = x;
+    
+    // Update the margin.
+    my.margin.left = x;
+    my.margin = my.margin;
+  }
+}
+
 function scale(my, prefix, initialScaleType){
 
   var scaleName    = prefix + "Scale";
@@ -163,6 +206,7 @@ function yAxisLabel(my, yAxisG){
 
 module.exports = {
   marginConvention: marginConvention,
+  marginEditor: marginEditor,
   scale: scale,
   xAxis: xAxis,
   xAxisLabel: xAxisLabel,

@@ -1,3 +1,4 @@
+var d3 = require("d3");
 var Model = require("model-js");
 var ChiasmComponent = require("chiasm-component");
 var mixins = require("../mixins");
