@@ -42,25 +42,26 @@ function BarChart(){
     }
   });
 
-  my.when(["dataset", "xScale", "xColumn", "yScale", "yColumn", "height"],
-      function (dataset, xScale, xColumn, yScale, yColumn, height) {
-
-    var barWidth;
+  my.when(["dataset", "xScale", "xColumn"], function (dataset, xScale, xColumn) {
     var interval = getColumnMetadata(dataset, xColumn).interval;
     if(interval){
-      barWidth = xScale(interval) - xScale(0);
+      my.barWidth = xScale(interval) - xScale(0);
     } else {
-      barWidth = xScale.rangeBand();
+      my.barWidth = xScale.rangeBand();
     }
+  });
+
+  my.when(["dataset", "xScale", "xColumn", "yScale", "yColumn", "height", "barWidth"],
+      function (dataset, xScale, xColumn, yScale, yColumn, height, barWidth) {
 
     var bars = g.selectAll("rect").data(dataset.data);
-      bars.enter().append("rect");
-      bars.exit().remove();
-      bars
-        .attr("x", function (d){ return xScale(d[xColumn]); })
-        .attr("width", barWidth)
-        .attr("y", function (d){ return yScale(d[yColumn]); })
-        .attr("height", function (d){ return height - yScale(d[yColumn]); });
+    bars.enter().append("rect");
+    bars
+      .attr("x", function (d){ return xScale(d[xColumn]); })
+      .attr("width", barWidth)
+      .attr("y", function (d){ return yScale(d[yColumn]); })
+      .attr("height", function (d){ return height - yScale(d[yColumn]); });
+    bars.exit().remove();
 
   });
 
