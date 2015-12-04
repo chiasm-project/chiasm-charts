@@ -14,7 +14,11 @@ function LineChart(){
   var svg = d3.select(my.initSVG());
   var g = mixins.marginConvention(my, svg);
 
-  var line = d3.svg.line().interpolate("basis");
+  var line = d3.svg.line()
+  
+    // TODO make this interpolate method configurable.
+    .interpolate("basis");
+
   var path = g.append("path").attr("fill", "none");
 
   var xAxisG = mixins.xAxis(my, g);
@@ -37,15 +41,9 @@ function LineChart(){
     }
   });
 
-  my.when(["dataset", "xScale", "xColumn", "yScale", "yColumn"],
-      function (dataset, xScale, xColumn, yScale, yColumn) {
-
-    line
-      .x(function(d) { return xScale(d[xColumn]); })
-      .y(function(d) { return yScale(d[yColumn]); });
-
+  my.when(["dataset", "xScaled", "yScaled"], function (dataset, xScaled, yScaled) {
+    line.x(xScaled).y(yScaled);
     path.attr("d", line(dataset.data));
-
   });
 
   my.when("lineStroke", function (lineStroke){
