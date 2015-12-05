@@ -16,48 +16,77 @@ function marginConvention(my, svg){
 
 function marginEditor(my, svg){
 
-  var data = [ "left", "right" ];
+  var data = [ "left", "right", "top" ];
 
   var drag = d3.behavior.drag().on("drag", function (d) {
-    if(d === "left"){
-      my.margin[d] = d3.event.x;
-    } else if(d === "right"){
-      my.margin[d] = -d3.event.x;
-    }
+    my.margin[d] = {
+      left: d3.event.x,
+      right: -d3.event.x,
+      top: d3.event.y
+    }[d];
     my.margin = my.margin;
   });
 
   var handles = svg.selectAll(".margin-handle").data(data);
   handles.enter().append("rect")
     .attr("class", "margin-handle")
-    .style("cursor", "ew-resize")
-    .style("fill", "none")
+    .style("fill", "black")
     .style("pointer-events", "all");
 
   handles.call(drag);
 
   my.when("margin", function (margin){
+    var origins = {
+      left: { x: margin.left, y: 0 },
+      right: { x: -margin.right, y: 0 },
+      top: { x: 0, y: margin.top }
+    };
     drag.origin(function(d) {
-      if(d === "left"){
-        return { x: margin.left, y: 0 };
-      } else if(d === "right"){
-        return { x: -margin.right, y: 0 };
-      }
+      return origins[d];
     });
   });
 
   my.addPublicProperty("marginEditorWidth", 20);
   my.when(["margin", "marginEditorWidth", "width", "height"],
       function (margin, marginEditorWidth, width, height){
+
     var x = {
-      left: margin.left,
-      right: margin.left + width
+      left:  margin.left         - marginEditorWidth / 2,
+      right: margin.left + width - marginEditorWidth / 2,
+      top: margin.left
     };
+
+    var y = {
+      left: margin.top,
+      right: margin.top,
+      top: margin.top - marginEditorWidth / 2
+    };
+
+    var w = {
+      left: marginEditorWidth,
+      right: marginEditorWidth,
+      top: width
+    };
+
+    var h = {
+      left: height,
+      right: height,
+      top: marginEditorWidth
+    };
+
+    var cursor = {
+      left: "ew-resize",
+      right: "ew-resize",
+      top: "ns-resize"
+    };
+
     handles
-      .attr("x", function (d){ return x[d] - marginEditorWidth / 2; })
-      .attr("y", margin.top)
-      .attr("width", marginEditorWidth)
-      .attr("height", height);
+      .attr("x",       function (d){ return x[d]; })
+      .attr("y",       function (d){ return y[d]; })
+      .attr("width",   function (d){ return w[d]; })
+      .attr("height",  function (d){ return h[d]; })
+      .style("cursor", function (d){ return cursor[d]; });
+
   });
 }
 
