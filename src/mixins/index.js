@@ -16,46 +16,49 @@ function marginConvention(my, svg){
 
 function marginEditor(my, svg){
 
-  var drag = d3.behavior.drag().on("drag", dragMove);
+  var data = [ "left", "right" ];
 
-  var leftRect = svg.append("rect")
+  var drag = d3.behavior.drag().on("drag", function (d) {
+    if(d === "left"){
+      my.margin[d] = d3.event.x;
+    } else if(d === "right"){
+      my.margin[d] = -d3.event.x;
+    }
+    my.margin = my.margin;
+  });
+
+  var handles = svg.selectAll(".margin-handle").data(data);
+  handles.enter().append("rect")
+    .attr("class", "margin-handle")
     .style("cursor", "ew-resize")
     .style("fill", "none")
     .style("pointer-events", "all");
 
+  handles.call(drag);
+
   my.when("margin", function (margin){
-    drag.origin(function() {
-      return { x: margin.left, y: 0 };
+    drag.origin(function(d) {
+      if(d === "left"){
+        return { x: margin.left, y: 0 };
+      } else if(d === "right"){
+        return { x: -margin.right, y: 0 };
+      }
     });
-    leftRect.call(drag);
   });
 
   my.addPublicProperty("marginEditorWidth", 20);
-  my.when(["margin", "marginEditorWidth", "height"],
-      function (margin, marginEditorWidth, height){
-    leftRect
-      .attr("x", margin.left - marginEditorWidth / 2)
+  my.when(["margin", "marginEditorWidth", "width", "height"],
+      function (margin, marginEditorWidth, width, height){
+    var x = {
+      left: margin.left,
+      right: margin.left + width
+    };
+    handles
+      .attr("x", function (d){ return x[d] - marginEditorWidth / 2; })
       .attr("y", margin.top)
       .attr("width", marginEditorWidth)
       .attr("height", height);
   });
-  
-  function dragMove(d) {
-    
-    // Get the updated X location computed by the drag behavior.
-    var x = d3.event.x;
-    
-    // Constrain x to be between x1 and x2 (the ends of the line).
-    //x = x < x1 ? x1 : x > x2 ? x2 : x;
-    
-    // This assignment is necessary for multiple drag gestures.
-    // It makes the drag.origin function yield the correct value.
-    //d.x = x;
-    
-    // Update the margin.
-    my.margin.left = x;
-    my.margin = my.margin;
-  }
 }
 
 function scale(my, prefix, initialScaleType){
