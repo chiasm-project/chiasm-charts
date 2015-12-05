@@ -15,13 +15,6 @@ function LineChart(){
   var svg = d3.select(my.initSVG());
   var g = mixins.marginConvention(my, svg);
 
-  var line = d3.svg.line()
-  
-    // TODO make this interpolate method configurable.
-    .interpolate("basis");
-
-  var path = g.append("path").attr("fill", "none");
-
   var xAxisG = mixins.xAxis(my, g);
   mixins.scale(my, "x", "time");
   mixins.xAxisLabel(my, xAxisG);
@@ -29,6 +22,16 @@ function LineChart(){
   var yAxisG = mixins.yAxis(my, g);
   mixins.scale(my, "y", "linear");
   mixins.yAxisLabel(my, yAxisG);
+
+  mixins.marginEditor(my, svg);
+
+
+  var line = d3.svg.line()
+  
+    // TODO make this interpolate method configurable.
+    .interpolate("basis");
+
+  var path = g.append("path").attr("fill", "none");
 
   my.when(["dataset", "xColumn"], function (dataset, xColumn){
     if(xColumn !== Model.None){

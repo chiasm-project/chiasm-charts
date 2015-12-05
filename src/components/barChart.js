@@ -23,6 +23,8 @@ function BarChart(){
   mixins.scale(my, "y", "linear");
   mixins.yAxisLabel(my, yAxisG);
 
+  mixins.marginEditor(my, svg);
+
   my.when(["dataset", "xColumn"], function (dataset, xColumn){
     if(xColumn !== Model.None){
       var interval = getColumnMetadata(dataset, xColumn).interval;

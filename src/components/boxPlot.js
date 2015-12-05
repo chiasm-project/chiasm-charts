@@ -28,6 +28,8 @@ function BoxPlot(){
   mixins.scale(my, "y", "linear");
   mixins.yAxisLabel(my, yAxisG);
 
+  mixins.marginEditor(my, svg);
+
   my.when(["dataset", "xAccessor"], function (dataset, xAccessor){
     my.xScaleDomain = dataset.data.map(xAccessor);
   });
