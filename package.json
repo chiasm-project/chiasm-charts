@@ -6,9 +6,9 @@
   "main": "main.js",
   "scripts": {
     "build": "browserify -g browserify-shim -o chiasm-charts.js -s ChiasmCharts src/index.js",
-    "watch": "npm run watch-js & npm run watch-server",
+    "build-tests": "cd test; browserify main.js | uglifyjs > main-build.js",
     "watch-js": "watchify ./test/main.js -o ./test/main-build.js -v",
-    "watch-server": "cd test; live-server"
+    "serve-tests": "cd test; live-server"
   },
   "author": "Curran Kelleher",
   "license": "MIT",

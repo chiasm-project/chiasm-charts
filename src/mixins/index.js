@@ -233,15 +233,15 @@ function autoScaleType(my, prefix){
   var columnMetadata = prefix + "Metadata";
 
   my.when(["dataset", columnMetadata, columnAccessor], function (dataset, metadata, accessor){
-
-    // This case deals with histogram bins.
     if(metadata.interval){
+
+      // Histogram bins.
       my[scaleType] = "linear";
       my[scaleDomain] = d3.extent(dataset.data, accessor);
       my[scaleDomain][1] += metadata.interval;
-
-    // This case deals with an ordinal domain (a string column).
     } else {
+
+      // Typical ordinal bars.
       my[scaleType] = "ordinal";
       my[scaleDomain] = dataset.data.map(accessor);
     }
@@ -256,8 +256,12 @@ function rangeBands(my, prefix){
 
   my.when([columnMetadata, scaleName], function (metadata, scale) {
     if(metadata.interval){
+
+      // Histogram bins.
       my[rangeBand] = Math.abs( scale(metadata.interval) - scale(0) );
     } else {
+
+      // Typical ordinal bars.
       my[rangeBand] = scale.rangeBand();
     }
   });
