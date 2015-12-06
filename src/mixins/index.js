@@ -143,6 +143,7 @@ function scale(my, prefix, initialScaleType){
   var columnName     = prefix + "Column";
   var columnAccessor = prefix + "Accessor";
   var scaled         = prefix + "Scaled";
+  var columnMetadata = prefix + "Metadata";
 
   my.addPublicProperty(columnName, Model.None);
 
@@ -203,12 +204,23 @@ function scale(my, prefix, initialScaleType){
   });
 
   my.when(columnName, function (column){
-    my[columnAccessor] = function (d){ return d[column]; };
+    if(column !== Model.None){
+      my[columnAccessor] = function (d){ return d[column]; };
+    }
   });
 
   my.when([scaleName, columnName], function (scale, column){
-    my[scaled] = function (d){ return scale(d[column]); };
+    if(column !== Model.None){
+      my[scaled] = function (d){ return scale(d[column]); };
+    }
   });
+  
+  my.when(["dataset", columnName], function (dataset, column){
+    if(column !== Model.None){
+      my[columnMetadata] = getColumnMetadata(dataset, column);
+    }
+  });
+
 }
 
 function autoScaleType(my, prefix){
@@ -218,25 +230,20 @@ function autoScaleType(my, prefix){
   var scaleDomain  = prefix + "ScaleDomain";
   var scaleType = prefix + "ScaleType";
   var columnAccessor = prefix + "Accessor";
+  var columnMetadata = prefix + "Metadata";
 
-  my.when(["dataset", columnName, columnAccessor], function (dataset, column, accessor){
-    if(column !== Model.None){
+  my.when(["dataset", columnMetadata, columnAccessor], function (dataset, metadata, accessor){
 
-      // TODO make this a model property
-      var columnMetadata = getColumnMetadata(dataset, column);
-      var interval = columnMetadata.interval;
+    // This case deals with histogram bins.
+    if(metadata.interval){
+      my[scaleType] = "linear";
+      my[scaleDomain] = d3.extent(dataset.data, accessor);
+      my[scaleDomain][1] += metadata.interval;
 
-      // This case deals with histogram bins.
-      if(interval){
-        my[scaleType] = "linear";
-        my[scaleDomain] = d3.extent(dataset.data, accessor);
-        my[scaleDomain][1] += interval;
-
-      // This case deals with an ordinal domain (a string column).
-      } else {
-        my[scaleType] = "ordinal";
-        my[scaleDomain] = dataset.data.map(accessor);
-      }
+    // This case deals with an ordinal domain (a string column).
+    } else {
+      my[scaleType] = "ordinal";
+      my[scaleDomain] = dataset.data.map(accessor);
     }
   });
 }
@@ -244,17 +251,12 @@ function autoScaleType(my, prefix){
 function rangeBands(my, prefix){
 
   var scaleName = prefix + "Scale";
-  var columnName = prefix + "Column";
+  var columnMetadata = prefix + "Metadata";
   var rangeBand = prefix + "RangeBand";
 
-  my.when(["dataset", scaleName, columnName], function (dataset, scale, column) {
-
-    // TODO make this a model property
-    var columnMetadata = getColumnMetadata(dataset, column);
-
-    var interval = columnMetadata.interval;
-    if(interval){
-      my[rangeBand] = Math.abs( scale(interval) - scale(0) );
+  my.when([columnMetadata, scaleName], function (metadata, scale) {
+    if(metadata.interval){
+      my[rangeBand] = Math.abs( scale(metadata.interval) - scale(0) );
     } else {
       my[rangeBand] = scale.rangeBand();
     }
