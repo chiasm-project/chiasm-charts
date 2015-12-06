@@ -1,4 +1,7 @@
 var d3 = require("d3");
+var Model = require("model-js");
+var ChiasmDataset = require("chiasm-dataset");
+var getColumnMetadata = ChiasmDataset.getColumnMetadata;
 
 function marginConvention(my, svg){
   var g = svg.append("g");
@@ -138,6 +141,7 @@ function scale(my, prefix, initialScaleType){
   var columnAccessor = prefix + "Accessor";
   var scaled         = prefix + "Scaled";
 
+  // TODO this feels like it should be elsewhere.
   if(prefix === "x"){
     my.when("width", function (width){
       my[scaleRange] = [0, width];
@@ -152,25 +156,31 @@ function scale(my, prefix, initialScaleType){
     linear: function (my){
       var myScale = d3.scale.linear();
       return my.when([scaleDomain, scaleRange], function (domain, range){
-        my[scaleName] = myScale.domain(domain).range(range);
+        if(domain !== Model.None && range !== Model.None){
+          my[scaleName] = myScale.domain(domain).range(range);
+        }
       });
     },
     ordinal: function (my){
       var myScale = d3.scale.ordinal();
       return my.when([scaleDomain, scaleRange, scalePadding], function (domain, range, padding){
-        my[scaleName] = myScale.domain(domain).rangeBands(range, padding);
+        if(domain !== Model.None && range !== Model.None){
+          my[scaleName] = myScale.domain(domain).rangeBands(range, padding);
+        }
       });
     },
     time: function (my){
       var myScale = d3.time.scale();
       return my.when([scaleDomain, scaleRange], function (domain, range){
-        my[scaleName] = myScale.domain(domain).range(range);
+        if(domain !== Model.None && range !== Model.None){
+          my[scaleName] = myScale.domain(domain).range(range);
+        }
       });
     }
   };
 
-  my.addPublicProperty(scaleDomain, [0, 1000]);
-  my.addPublicProperty(scaleType, initialScaleType);
+  my.addPublicProperty(scaleDomain, Model.None);
+  my.addPublicProperty(scaleType, initialScaleType ? initialScaleType : Model.None )
 
   // This property is relevant only for ordinal scales.
   my.addPublicProperty(scalePadding, 0.1);
@@ -178,10 +188,13 @@ function scale(my, prefix, initialScaleType){
   var oldListener;
   my.when(scaleType, function (type){
 
-    // TODO add tests for this line.
-    if(oldListener){ my.cancel(oldListener); }
+    if(type !== Model.None){
 
-    oldListener = scaleTypes[type](my);
+      // TODO add tests for this line.
+      if(oldListener){ my.cancel(oldListener); }
+
+      oldListener = scaleTypes[type](my);
+    }
   });
 
   my.when(columnName, function (column){
@@ -193,20 +206,32 @@ function scale(my, prefix, initialScaleType){
   });
 }
 
-function xScaleLinear(my){
-  scale(my, "x", "linear");
-}
+function autoScaleType(my, prefix){
 
-function xScaleOrdinal(my){
-  scale(my, "x", "ordinal");
-}
+  var columnName = prefix + "Column";
+  var columnAccessor = prefix + "Accessor";
+  var scaleDomain  = prefix + "ScaleDomain";
+  var scaleType = prefix + "ScaleType";
+  var columnAccessor = prefix + "Accessor";
 
-function xScaleTime(my){
-  scale(my, "x", "time");
-}
+  my.when(["dataset", columnName, columnAccessor], function (dataset, column, accessor){
+    if(column !== Model.None){
+      var columnMetadata = getColumnMetadata(dataset, column);
+      var interval = columnMetadata.interval;
 
-function yScaleLinear(my){
-  scale(my, "y", "linear");
+      // This case deals with histogram bins.
+      if(interval){
+        my[scaleType] = "linear";
+        my[scaleDomain] = d3.extent(dataset.data, accessor);
+        my[scaleDomain][1] += interval;
+
+      // This case deals with an ordinal domain (a string column).
+      } else {
+        my[scaleType] = "ordinal";
+        my[scaleDomain] = dataset.data.map(accessor);
+      }
+    }
+  });
 }
 
 function xAxis(my, g){
@@ -277,6 +302,7 @@ module.exports = {
   marginConvention: marginConvention,
   marginEditor: marginEditor,
   scale: scale,
+  autoScaleType: autoScaleType,
   xAxis: xAxis,
   xAxisLabel: xAxisLabel,
   yAxis: yAxis,

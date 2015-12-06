@@ -1,13 +1,15 @@
 var d3 = require("d3");
 var Model = require("model-js");
 var ChiasmComponent = require("chiasm-component");
-var mixins = require("../mixins");
 var ChiasmDataset = require("chiasm-dataset");
 var getColumnMetadata = ChiasmDataset.getColumnMetadata;
+var mixins = require("../mixins");
 
 function BarChart(){
 
   var my = new ChiasmComponent({
+
+    // TODO move these to the "scale" mixin
     xColumn: Model.None,
     yColumn: Model.None
   });
@@ -15,8 +17,9 @@ function BarChart(){
   var svg = d3.select(my.initSVG());
   var g = mixins.marginConvention(my, svg);
 
+  mixins.scale(my, "x");
+  mixins.autoScaleType(my, "x");
   var xAxisG = mixins.xAxis(my, g);
-  mixins.scale(my, "x", "ordinal");
   mixins.xAxisLabel(my, xAxisG);
 
   var yAxisG = mixins.yAxis(my, g);
@@ -24,20 +27,6 @@ function BarChart(){
   mixins.yAxisLabel(my, yAxisG);
 
   mixins.marginEditor(my, svg);
-
-  my.when(["dataset", "xColumn"], function (dataset, xColumn){
-    if(xColumn !== Model.None){
-      var interval = getColumnMetadata(dataset, xColumn).interval;
-      if(interval){
-        my.xScaleType = "linear";
-        my.xScaleDomain = d3.extent(dataset.data, function (d) { return d[xColumn]; });
-        my.xScaleDomain[1] += interval;
-      } else {
-        my.xScaleType = "ordinal";
-        my.xScaleDomain = dataset.data.map( function (d) { return d[xColumn]; });
-      }
-    }
-  });
   
   my.when(["dataset", "yColumn"], function (dataset, yColumn){
     if(yColumn !== Model.None){
