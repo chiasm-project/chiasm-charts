@@ -31,15 +31,8 @@ function myApp(){
           "children": [
             {
               "orientation": "horizontal",
-              "size": 2,
               "children": [
-                {
-                  "orientation": "vertical",
-                  "children": [
-                    "myBarChart",
-                    "myHistogram"
-                  ]
-                },
+                "myBarChart",
                 "myScatterPlot",
                 "myBoxPlot"
               ]
@@ -47,6 +40,7 @@ function myApp(){
             {
               "orientation": "horizontal",
               "children": [
+                "myHistogram",
                 "myHeatmap",
                 "myLineChart"
               ]
@@ -173,12 +167,13 @@ function myApp(){
       }
     },
     "myHeatmap": {
-      "plugin": "barChart",
+      "plugin": "heatMap",
       "state": {
         "xAxisLabelText": "Petal Length",
         "xColumn": "petal_length",
         "yAxisLabelText": "Sepal Length",
         "yColumn": "sepal_length",
+        "colorColumn": "count",
         "xAxisLabelTextOffset": 32,
         "yAxisLabelTextOffset": 30,
         "margin": { top: 5, right: 20, bottom: 35, left: 50}
@@ -192,6 +187,7 @@ function myApp(){
           "scatterPlotDataLoader.dataset -> myScatterPlot.dataset",
           "scatterPlotDataLoader.dataset -> myBoxPlot.dataset",
           "scatterPlotDataLoader.dataset -> histogramData.datasetIn",
+          "scatterPlotDataLoader.dataset -> heatmapData.datasetIn",
           "barChartDataLoader.dataset -> myBarChart.dataset",
           "histogramData.datasetOut -> myHistogram.dataset",
           "heatmapData.datasetOut -> myHeatmap.dataset"

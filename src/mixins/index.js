@@ -251,7 +251,7 @@ function rangeBands(my, prefix){
 
     var interval = columnMetadata.interval;
     if(interval){
-      my[rangeBand] = scale(interval) - scale(0);
+      my[rangeBand] = Math.abs( scale(interval) - scale(0) );
     } else {
       my[rangeBand] = scale.rangeBand();
     }

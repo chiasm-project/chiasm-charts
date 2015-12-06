@@ -1,8 +1,6 @@
 var d3 = require("d3");
 var Model = require("model-js");
 var ChiasmComponent = require("chiasm-component");
-var ChiasmDataset = require("chiasm-dataset");
-var getColumnMetadata = ChiasmDataset.getColumnMetadata;
 var mixins = require("../mixins");
 
 function BarChart(){
@@ -14,6 +12,7 @@ function BarChart(){
 
   mixins.scale(my, "x");
   mixins.autoScaleType(my, "x");
+  mixins.rangeBands(my, "x");
 
   var xAxisG = mixins.xAxis(my, g);
   mixins.xAxisLabel(my, xAxisG);
@@ -28,9 +27,6 @@ function BarChart(){
   my.when(["dataset", "yAccessor"], function (dataset, yAccessor){
     my.yScaleDomain = [ 0, d3.max(dataset.data, yAccessor) ]
   });
-
-  // TODO generalize this for use in heatmap.
-  mixins.rangeBands(my, "x");
 
   my.when(["dataset", "xScaled", "yScaled", "height", "xRangeBand"],
       function (dataset, xScaled, yScaled, height, xRangeBand) {
