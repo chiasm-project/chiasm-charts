@@ -141,6 +141,8 @@ function scale(my, prefix, initialScaleType){
   var columnAccessor = prefix + "Accessor";
   var scaled         = prefix + "Scaled";
 
+  my.addPublicProperty(columnName, Model.None);
+
   // TODO this feels like it should be elsewhere.
   if(prefix === "x"){
     my.when("width", function (width){

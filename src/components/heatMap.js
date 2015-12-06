@@ -17,10 +17,8 @@ function HeatMap() {
 
     colorColumn: Model.None,
 
-    xColumn: Model.None,
     xLabel: Model.None,
 
-    yColumn: Model.None,
     yLabel: Model.None,
 
     // These properties adjust spacing between rects.

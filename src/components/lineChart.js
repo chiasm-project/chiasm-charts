@@ -6,8 +6,6 @@ var mixins = require("../mixins");
 function LineChart(){
 
   var my = new ChiasmComponent({
-    xColumn: Model.None,
-    yColumn: Model.None,
     lineStroke: "black",
     lineStrokeWidth: "1px"
   });

@@ -6,8 +6,7 @@ var mixins = require("../mixins");
 function ScatterPlot(){
 
   var my = new ChiasmComponent({
-    xColumn: Model.None,
-    yColumn: Model.None,
+    // TODO add a size column, use sqrt scale.
     circleRadius: 5
   });
 
@@ -24,16 +23,12 @@ function ScatterPlot(){
 
   mixins.marginEditor(my, svg);
 
-  my.when(["dataset", "xColumn"], function (dataset, xColumn){
-    if(xColumn !== Model.None){
-      my.xScaleDomain = d3.extent(dataset.data, function (d) { return d[xColumn]; });
-    }
+  my.when(["dataset", "xAccessor"], function (dataset, xAccessor){
+    my.xScaleDomain = d3.extent(dataset.data, xAccessor);
   });
   
-  my.when(["dataset", "yColumn"], function (dataset, yColumn){
-    if(yColumn !== Model.None){
-      my.yScaleDomain = d3.extent(dataset.data, function (d) { return d[yColumn]; });
-    }
+  my.when(["dataset", "yAccessor"], function (dataset, yAccessor){
+    my.yScaleDomain = d3.extent(dataset.data, yAccessor);
   });
 
   my.when(["dataset", "xScaled", "yScaled", "circleRadius"],

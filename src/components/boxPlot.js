@@ -9,9 +9,6 @@ var mixins = require("../mixins");
 function BoxPlot(){
 
   var my = new ChiasmComponent({
-    xColumn: Model.None,
-    yColumn: Model.None,
-
     fill: "white",
     stroke: "black",
     strokeWidth: "1px"
