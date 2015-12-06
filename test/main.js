@@ -1,5 +1,4 @@
 var Chiasm = require("chiasm");
-var ChiasmDataReduction = require("chiasm-data-reduction");
 
 // This is the module published as the npm package "chiasm-charts".
 var Charts = require("../src");
@@ -10,6 +9,7 @@ function myApp(){
   chiasm.plugins.layout = require("chiasm-layout");
   chiasm.plugins.links = require("chiasm-links");
   chiasm.plugins.dsvDataset = require("chiasm-dsv-dataset");
+  chiasm.plugins.dataReduction = require("chiasm-data-reduction");
 
   // TODO add an API to Chiasm that supports registering multiple plugins simultaneously.
   // e.g. chiasm.registerPlugins(Charts.components);
@@ -19,7 +19,10 @@ function myApp(){
   chiasm.plugins.heatMap = Charts.components.heatMap;
   chiasm.plugins.boxPlot = Charts.components.boxPlot;
 
-  chiasm.plugins.dataReduction = ChiasmDataReduction;
+  // These are custom property values used across many components.
+  var xAxisLabelTextOffset = 30;
+  var yAxisLabelTextOffset = 30;
+  var margin = { top: 10, right: 10, bottom: 40, left: 42 };
 
   chiasm.setConfig({
     "layout": {
@@ -62,9 +65,9 @@ function myApp(){
         "xColumn": "timestamp",
         "yAxisLabelText": "Temperature",
         "yColumn": "temperature",
-        "xAxisLabelTextOffset": 32,
-        "yAxisLabelTextOffset": 30,
-        "margin": { top: 0, right: 20, bottom: 35, left: 50}
+        "xAxisLabelTextOffset": xAxisLabelTextOffset,
+        "yAxisLabelTextOffset": yAxisLabelTextOffset,
+        "margin": margin
       }
     },
     "scatterPlotDataLoader": {
@@ -80,9 +83,9 @@ function myApp(){
         "xColumn": "sepal_length",
         "yAxisLabelText": "Petal Length",
         "yColumn": "petal_length",
-        "xAxisLabelTextOffset": 32,
-        "yAxisLabelTextOffset": 30,
-        "margin": { top: 5, right: 20, bottom: 35, left: 50}
+        "xAxisLabelTextOffset": xAxisLabelTextOffset,
+        "yAxisLabelTextOffset": yAxisLabelTextOffset,
+        "margin": margin
       }
     },
     "myBoxPlot": {
@@ -92,9 +95,9 @@ function myApp(){
         "xColumn": "class",
         "yAxisLabelText": "Sepal Length",
         "yColumn": "sepal_length",
-        "xAxisLabelTextOffset": 32,
-        "yAxisLabelTextOffset": 30,
-        "margin": { top: 5, right: 20, bottom: 35, left: 50}
+        "xAxisLabelTextOffset": xAxisLabelTextOffset,
+        "yAxisLabelTextOffset": yAxisLabelTextOffset,
+        "margin": margin
       }
     },
     "barChartDataLoader": {
@@ -110,9 +113,9 @@ function myApp(){
         "xColumn": "name",
         "yAxisLabelText": "Amount",
         "yColumn": "amount",
-        "xAxisLabelTextOffset": 32,
-        "yAxisLabelTextOffset": 30,
-        "margin": { top: 5, right: 20, bottom: 35, left: 50}
+        "xAxisLabelTextOffset": xAxisLabelTextOffset,
+        "yAxisLabelTextOffset": yAxisLabelTextOffset,
+        "margin": margin
       }
     },
     "histogramData": {
@@ -138,9 +141,9 @@ function myApp(){
         "xColumn": "petal_length",
         "yAxisLabelText": "Count",
         "yColumn": "count",
-        "xAxisLabelTextOffset": 32,
-        "yAxisLabelTextOffset": 30,
-        "margin": { top: 5, right: 20, bottom: 35, left: 50}
+        "xAxisLabelTextOffset": xAxisLabelTextOffset,
+        "yAxisLabelTextOffset": yAxisLabelTextOffset,
+        "margin": margin
       }
     },
     "heatmapData": {
@@ -174,9 +177,9 @@ function myApp(){
         "yAxisLabelText": "Sepal Length",
         "yColumn": "sepal_length",
         "colorColumn": "count",
-        "xAxisLabelTextOffset": 32,
-        "yAxisLabelTextOffset": 30,
-        "margin": { top: 5, right: 20, bottom: 35, left: 50}
+        "xAxisLabelTextOffset": xAxisLabelTextOffset,
+        "yAxisLabelTextOffset": yAxisLabelTextOffset,
+        "margin": margin
       }
     },
     "myLinks": {
