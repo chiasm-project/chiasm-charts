@@ -3,6 +3,9 @@ var Model = require("model-js");
 var ChiasmDataset = require("chiasm-dataset");
 var getColumnMetadata = ChiasmDataset.getColumnMetadata;
 
+// TODO split up this file.
+
+
 function marginConvention(my, svg){
   var g = svg.append("g");
 
@@ -20,7 +23,7 @@ function marginConvention(my, svg){
 function marginEditor(my, svg){
 
   // The width of the handles.
-  my.addPublicProperty("marginEditorWidth", 20);
+  my.addPublicProperty("marginEditorWidth", 15);
 
   // The color of the handles on hover.
   my.addPublicProperty("marginEditorFill", "rgba(0, 0, 0, 0.2)");
