@@ -29,14 +29,8 @@ function BarChart(){
     my.yScaleDomain = [ 0, d3.max(dataset.data, yAccessor) ]
   });
 
-  my.when(["dataset", "xScale", "xColumn"], function (dataset, xScale, xColumn) {
-    var interval = getColumnMetadata(dataset, xColumn).interval;
-    if(interval){
-      my.xRangeBand = xScale(interval) - xScale(0);
-    } else {
-      my.xRangeBand = xScale.rangeBand();
-    }
-  });
+  // TODO generalize this for use in heatmap.
+  mixins.rangeBands(my, "x");
 
   my.when(["dataset", "xScaled", "yScaled", "height", "xRangeBand"],
       function (dataset, xScaled, yScaled, height, xRangeBand) {

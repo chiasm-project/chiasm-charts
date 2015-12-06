@@ -218,6 +218,8 @@ function autoScaleType(my, prefix){
 
   my.when(["dataset", columnName, columnAccessor], function (dataset, column, accessor){
     if(column !== Model.None){
+
+      // TODO make this a model property
       var columnMetadata = getColumnMetadata(dataset, column);
       var interval = columnMetadata.interval;
 
@@ -232,6 +234,26 @@ function autoScaleType(my, prefix){
         my[scaleType] = "ordinal";
         my[scaleDomain] = dataset.data.map(accessor);
       }
+    }
+  });
+}
+
+function rangeBands(my, prefix){
+
+  var scaleName = prefix + "Scale";
+  var columnName = prefix + "Column";
+  var rangeBand = prefix + "RangeBand";
+
+  my.when(["dataset", scaleName, columnName], function (dataset, scale, column) {
+
+    // TODO make this a model property
+    var columnMetadata = getColumnMetadata(dataset, column);
+
+    var interval = columnMetadata.interval;
+    if(interval){
+      my[rangeBand] = scale(interval) - scale(0);
+    } else {
+      my[rangeBand] = scale.rangeBand();
     }
   });
 }
@@ -305,6 +327,7 @@ module.exports = {
   marginEditor: marginEditor,
   scale: scale,
   autoScaleType: autoScaleType,
+  rangeBands: rangeBands,
   xAxis: xAxis,
   xAxisLabel: xAxisLabel,
   yAxis: yAxis,

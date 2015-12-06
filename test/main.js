@@ -16,6 +16,7 @@ function myApp(){
   chiasm.plugins.scatterPlot = Charts.components.scatterPlot;
   chiasm.plugins.lineChart = Charts.components.lineChart;
   chiasm.plugins.barChart = Charts.components.barChart;
+  chiasm.plugins.heatMap = Charts.components.heatMap;
   chiasm.plugins.boxPlot = Charts.components.boxPlot;
 
   chiasm.plugins.dataReduction = ChiasmDataReduction;
@@ -43,7 +44,13 @@ function myApp(){
                 "myBoxPlot"
               ]
             },
-            "myLineChart"
+            {
+              "orientation": "horizontal",
+              "children": [
+                "myHeatmap",
+                "myLineChart"
+              ]
+            }
           ]
         }
       }
@@ -121,7 +128,7 @@ function myApp(){
           "dimensions": [{
             "column": "petal_length",
             "histogram": true,
-            "numBins": 10
+            "numBins": 20
           }],
           "measures": [{
             "outColumn": "count", 
@@ -142,6 +149,41 @@ function myApp(){
         "margin": { top: 5, right: 20, bottom: 35, left: 50}
       }
     },
+    "heatmapData": {
+      "plugin": "dataReduction",
+      "state": {
+        "aggregate": {
+          "dimensions": [
+            {
+              "column": "petal_length",
+              "histogram": true,
+              "numBins": 10
+            },
+            {
+              "column": "sepal_length",
+              "histogram": true,
+              "numBins": 10
+            }
+          ],
+          "measures": [{
+            "outColumn": "count", 
+            "operator": "count"
+          }]
+        }
+      }
+    },
+    "myHeatmap": {
+      "plugin": "barChart",
+      "state": {
+        "xAxisLabelText": "Petal Length",
+        "xColumn": "petal_length",
+        "yAxisLabelText": "Sepal Length",
+        "yColumn": "sepal_length",
+        "xAxisLabelTextOffset": 32,
+        "yAxisLabelTextOffset": 30,
+        "margin": { top: 5, right: 20, bottom: 35, left: 50}
+      }
+    },
     "myLinks": {
       "plugin": "links",
       "state": {
@@ -151,7 +193,8 @@ function myApp(){
           "scatterPlotDataLoader.dataset -> myBoxPlot.dataset",
           "scatterPlotDataLoader.dataset -> histogramData.datasetIn",
           "barChartDataLoader.dataset -> myBarChart.dataset",
-          "histogramData.datasetOut -> myHistogram.dataset"
+          "histogramData.datasetOut -> myHistogram.dataset",
+          "heatmapData.datasetOut -> myHeatmap.dataset"
         ]
       }
     }

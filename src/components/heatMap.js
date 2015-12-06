@@ -1,8 +1,9 @@
-// This is an example Chaism plugin that uses D3 to make a heat map. 
-
-var ChiasmComponent = require("chiasm-component");
-var Model = require("model-js");
 var d3 = require("d3");
+var Model = require("model-js");
+var ChiasmComponent = require("chiasm-component");
+//var ChiasmDataset = require("chiasm-dataset");
+//var getColumnMetadata = ChiasmDataset.getColumnMetadata;
+var mixins = require("../mixins");
 
 function HeatMap() {
 
