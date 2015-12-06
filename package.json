@@ -5,6 +5,7 @@
   "repository": "git://github.com/chiasm-project/chiasm-charts.git",
   "main": "main.js",
   "scripts": {
+    "build": "browserify -g browserify-shim -o chiasm-charts.js -s ChiasmCharts src/index.js",
     "watch": "npm run watch-js & npm run watch-server",
     "watch-js": "watchify ./test/main.js -o ./test/main-build.js -v",
     "watch-server": "cd test; live-server"
@@ -12,18 +13,25 @@
   "author": "Curran Kelleher",
   "license": "MIT",
   "dependencies": {
-    "chiasm": "^0.2.3",
     "chiasm-component": "^0.2.3",
     "chiasm-dataset": "^0.1.1",
     "d3": "^3.5.6",
     "model-js": "^0.2.4"
   },
   "devDependencies": {
+    "browserify": "^12.0.1",
+    "browserify-shim": "^3.8.11",
+    "chiasm": "^0.2.3",
     "chiasm-data-reduction": "^0.3.0",
     "chiasm-dsv-dataset": "^0.3.0",
     "chiasm-layout": "^0.2.4",
     "chiasm-links": "^0.2.3",
     "live-server": "^0.8.2",
     "watchify": "^3.6.1"
+  },
+  "browserify-shim": {
+    "lodash": "global:_",
+    "chiasm-component": "global:ChiasmComponent",
+    "model-js": "global:Model"
   }
 }
