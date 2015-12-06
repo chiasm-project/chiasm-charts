@@ -16,19 +16,10 @@ cd chiasm-charts
 npm install
 ```
 
-After that, the NPM scripts available to you are
-
- * "build" - compiles the test application (under `/test`)
- * "serve" - serves the test application
+After that, you can run the visual tests with the command:
 
 ```
-npm run build
-> chiasm-charts@0.0.1 build /Users/curran/repos/chiasm-charts
-> cd test; browserify main.js | uglifyjs > main-build.js
-
-npm run serve
-> chiasm-charts@0.0.1 serve /Users/curran/repos/chiasm-charts
-> cd test; http-server
-Starting up http-server, serving ./ on: http://0.0.0.0:8080
-Hit CTRL-C to stop the server
+npm run watch
 ```
+
+This will open a browser window open to the visual test page. This serves as the unit test suite for chiasm-charts. As you change code, the test page app will be bundled and the page will be updated.
