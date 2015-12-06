@@ -2,6 +2,7 @@
   "name": "chiasm-charts",
   "version": "0.0.1",
   "description": "Reusable data visualization components.",
+  "repository": "git://github.com/chiasm-project/chiasm-charts.git",
   "main": "main.js",
   "scripts": {
     "watch": "npm run watch-js & npm run watch-server",
@@ -22,9 +23,7 @@
     "chiasm-dsv-dataset": "^0.3.0",
     "chiasm-layout": "^0.2.4",
     "chiasm-links": "^0.2.3",
-    "http-server": "^0.8.5",
     "live-server": "^0.8.2",
-    "uglifyjs": "^2.4.10",
     "watchify": "^3.6.1"
   }
 }
