@@ -4,8 +4,9 @@
   "description": "Reusable data visualization components.",
   "main": "main.js",
   "scripts": {
-    "build": "cd test; browserify main.js | uglifyjs > main-build.js",
-    "serve": "cd test; http-server"
+    "watch": "npm run watch-js & npm run watch-server",
+    "watch-js": "watchify ./test/main.js -o ./test/main-build.js -v",
+    "watch-server": "cd test; live-server"
   },
   "author": "Curran Kelleher",
   "license": "MIT",
@@ -17,12 +18,13 @@
     "model-js": "^0.2.4"
   },
   "devDependencies": {
-    "browserify": "^11.2.0",
     "chiasm-data-reduction": "^0.3.0",
     "chiasm-dsv-dataset": "^0.3.0",
     "chiasm-layout": "^0.2.4",
     "chiasm-links": "^0.2.3",
     "http-server": "^0.8.5",
-    "uglifyjs": "^2.4.10"
+    "live-server": "^0.8.2",
+    "uglifyjs": "^2.4.10",
+    "watchify": "^3.6.1"
   }
 }
