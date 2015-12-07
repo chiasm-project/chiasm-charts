@@ -4,11 +4,16 @@ var ChiasmDataset = require("chiasm-dataset");
 var getColumnMetadata = ChiasmDataset.getColumnMetadata;
 
 // TODO split up this file.
-
+// TODO migrate to ES6 modules & Rollup.
 
 function marginConvention(my, svg){
   var g = svg.append("g");
 
+  // TODO maybe the margin would be better suited as 4 separate properties?
+  // margin-top
+  // margin-bottom
+  // margin-left
+  // margin-right
   my.addPublicProperty("margin", {top: 20, right: 20, bottom: 50, left: 60});
 
   my.when(["box", "margin"], function (box, margin){
@@ -171,6 +176,8 @@ function scale(my, prefix, initialScaleType){
       var myScale = d3.scale.ordinal();
       return my.when([scaleDomain, scaleRange, scalePadding], function (domain, range, padding){
         if(domain !== Model.None && range !== Model.None){
+
+          // TODO what about rangePoints?
           my[scaleName] = myScale.domain(domain).rangeBands(range, padding);
         }
       });
@@ -204,15 +211,11 @@ function scale(my, prefix, initialScaleType){
   });
 
   my.when(columnName, function (column){
-    if(column !== Model.None){
-      my[columnAccessor] = function (d){ return d[column]; };
-    }
+    my[columnAccessor] = function (d){ return d[column]; };
   });
 
   my.when([scaleName, columnName], function (scale, column){
-    if(column !== Model.None){
-      my[scaled] = function (d){ return scale(d[column]); };
-    }
+    my[scaled] = function (d){ return scale(d[column]); };
   });
   
   my.when(["dataset", columnName], function (dataset, column){
@@ -223,8 +226,16 @@ function scale(my, prefix, initialScaleType){
 
 }
 
+
+// TODO figure out what this really is about.
+// The name autoScaleType does not really express what it does.
+// It really is more the thing that isolates the difference between
+// a bar chart and a histogram.
+// This is used in the histogram and heatmap visualizations.
+// It has to do with "rangeBands" vs. "rangePoints" too.
 function autoScaleType(my, prefix){
 
+  // TODO move these into functions, eliminate duplicate code.
   var columnName = prefix + "Column";
   var columnAccessor = prefix + "Accessor";
   var scaleDomain  = prefix + "ScaleDomain";
@@ -232,13 +243,27 @@ function autoScaleType(my, prefix){
   var columnAccessor = prefix + "Accessor";
   var columnMetadata = prefix + "Metadata";
 
-  my.when(["dataset", columnMetadata, columnAccessor], function (dataset, metadata, accessor){
-    if(metadata.interval){
+  my.when(["dataset", columnMetadata, columnAccessor], function (dataset, meta, accessor){
+    if(meta.interval){
 
-      // Histogram bins.
-      my[scaleType] = "linear";
-      my[scaleDomain] = d3.extent(dataset.data, accessor);
-      my[scaleDomain][1] += metadata.interval;
+      // TODO use symbols, e.g. ChiasmDataset.NUMBER rather than strings.
+      // TODO use ES6 modules, where symbols make more sense.
+      var columnIsNumber = (meta.type === "number");
+      var columnIsDate = (meta.type === "date");
+
+      if(columnIsNumber){
+
+        // Histogram bins.
+        my[scaleType] = "linear";
+        my[scaleDomain] = d3.extent(dataset.data, accessor);
+        my[scaleDomain][1] += metadata.interval;
+
+      } else if(columnIsDate){
+
+        // TODO support time intervals.
+      }
+
+
     } else {
 
       // Typical ordinal bars.
@@ -250,6 +275,7 @@ function autoScaleType(my, prefix){
 
 function rangeBands(my, prefix){
 
+  // TODO make these into functions, reduce duplicate code.
   var scaleName = prefix + "Scale";
   var columnMetadata = prefix + "Metadata";
   var rangeBand = prefix + "RangeBand";

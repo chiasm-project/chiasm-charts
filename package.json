@@ -5,9 +5,8 @@
   "repository": "git://github.com/chiasm-project/chiasm-charts.git",
   "main": "main.js",
   "scripts": {
-    "build": "browserify -g browserify-shim -o chiasm-charts.js -s ChiasmCharts src/index.js",
-    "build-tests": "cd test; browserify main.js | uglifyjs > main-build.js",
-    "watch-js": "watchify ./test/main.js -o ./test/main-build.js -v",
+    "build-UMD": "browserify -g browserify-shim -o chiasm-charts.js -s ChiasmCharts src/index.js",
+    "build": "cd test; browserify main.js | uglifyjs > main-build.js",
     "serve-tests": "cd test; live-server"
   },
   "author": "Curran Kelleher",
