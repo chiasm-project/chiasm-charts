@@ -256,13 +256,12 @@ function autoScaleType(my, prefix){
         // Histogram bins.
         my[scaleType] = "linear";
         my[scaleDomain] = d3.extent(dataset.data, accessor);
-        my[scaleDomain][1] += metadata.interval;
+        my[scaleDomain][1] += meta.interval;
 
       } else if(columnIsDate){
 
         // TODO support time intervals.
       }
-
 
     } else {
 
