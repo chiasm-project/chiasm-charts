@@ -21,7 +21,7 @@ npm install
 After that, you can run the visual tests with the command:
 
 ```
-npm run watch
+npm run build
 ```
 
-This will open a browser window open to the visual test page. This serves as the unit test suite for chiasm-charts. As you change code, the test page app will be bundled and the page will be updated.
+This will build the test application, which you can then inspect in a browser window open to the visual test page. This serves as the unit test suite for chiasm-charts.
