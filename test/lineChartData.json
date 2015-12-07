@@ -1,6 +1,0 @@
-{
-  "columns": [
-    { "name": "timestamp",   "type": "date" },
-    { "name": "temperature", "type": "number" }
-  ]
-}
