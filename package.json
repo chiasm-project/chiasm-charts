@@ -31,6 +31,7 @@
   "browserify-shim": {
     "lodash": "global:_",
     "chiasm-component": "global:ChiasmComponent",
-    "model-js": "global:Model"
+    "model-js": "global:Model",
+    "d3": "global:d3"
   }
 }
