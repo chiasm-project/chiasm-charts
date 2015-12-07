@@ -1,6 +1,6 @@
 {
   "name": "chiasm-charts",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Reusable data visualization components.",
   "repository": "git://github.com/chiasm-project/chiasm-charts.git",
   "main": "src/index.js",
