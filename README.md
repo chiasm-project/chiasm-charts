@@ -1,5 +1,7 @@
 # chiasm-charts
 
+[![](http://bl.ocks.org/curran/raw/46050d18d5ec1ab401fa/thumbnail.png)](http://bl.ocks.org/curran/46050d18d5ec1ab401fa)
+
 Reusable data visualization components.
 
 <a href="http://bl.ocks.org/curran/5e3c1bed7c9cdd2b431c">
