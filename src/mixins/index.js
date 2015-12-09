@@ -51,7 +51,6 @@ function autoScaleType(my, prefix){
 
 function rangeBands(my, prefix){
 
-  // TODO make these into functions, reduce duplicate code.
   var scaleName = prefix + "Scale";
   var columnMetadata = prefix + "Metadata";
   var rangeBand = prefix + "RangeBand";

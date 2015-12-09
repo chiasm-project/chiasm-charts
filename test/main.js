@@ -37,6 +37,7 @@ function myApp(){
               "children": [
                 "myBarChart",
                 "myScatterPlot",
+                "myScatterPlotOrdinalX",
                 "myBoxPlot"
               ]
             },
@@ -81,6 +82,18 @@ function myApp(){
       "state": {
         "xAxisLabelText": "Sepal Length",
         "xColumn": "sepal_length",
+        "yAxisLabelText": "Petal Length",
+        "yColumn": "petal_length",
+        "xAxisLabelTextOffset": xAxisLabelTextOffset,
+        "yAxisLabelTextOffset": yAxisLabelTextOffset,
+        "margin": margin
+      }
+    },
+    "myScatterPlotOrdinalX": {
+      "plugin": "scatterPlot",
+      "state": {
+        "xAxisLabelText": "Class",
+        "xColumn": "class",
         "yAxisLabelText": "Petal Length",
         "yColumn": "petal_length",
         "xAxisLabelTextOffset": xAxisLabelTextOffset,
@@ -188,6 +201,7 @@ function myApp(){
         "bindings": [
           "lineChartDataLoader.dataset -> myLineChart.dataset",
           "scatterPlotDataLoader.dataset -> myScatterPlot.dataset",
+          "scatterPlotDataLoader.dataset -> myScatterPlotOrdinalX.dataset",
           "scatterPlotDataLoader.dataset -> myBoxPlot.dataset",
           "scatterPlotDataLoader.dataset -> histogramData.datasetIn",
           "scatterPlotDataLoader.dataset -> heatmapData.datasetIn",
