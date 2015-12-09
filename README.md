@@ -1,7 +1,5 @@
 # chiasm-charts
 
-[![](http://bl.ocks.org/curran/raw/46050d18d5ec1ab401fa/thumbnail.png)](http://bl.ocks.org/curran/46050d18d5ec1ab401fa)
-
 Reusable data visualization components for [Chiasm](https://github.com/chiasm-project/chiasm).
 
 The beginnings of this library are explained in this [video tutorial: Introduction to Chiasm](https://www.youtube.com/watch?v=MpweS7gNBt4). This video tutorial ends with this [code example: Reactive Mixins for Visualizations](http://bl.ocks.org/curran/5e3c1bed7c9cdd2b431c).
