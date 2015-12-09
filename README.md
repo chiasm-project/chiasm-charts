@@ -21,10 +21,16 @@ cd chiasm-charts
 npm install
 ```
 
-After that, you can run the visual tests with the command:
+After that, you can launch the visual test suite with the command:
+
+```
+npm run serve-tests
+```
+
+This will launch an instance of [live-server](https://github.com/tapio/live-server), which will automatically re-load the page every time you build the test application bundle. To build the bundle, run
 
 ```
 npm run build
 ```
 
-This will build the test application, which you can then inspect in a browser window open to the visual test page. This serves as the unit test suite for chiasm-charts.
+This will build the test application, which you can then inspect in the browser window open to the visual test page. This serves as the unit test suite for chiasm-charts.
