@@ -17,17 +17,40 @@ function ScatterPlot(){
   mixins.column(my, "y");
 
   mixins.scale(my, "x");
-  mixins.autoScaleType(my, "x");
-  var xAxisG = mixins.xAxis(my, g);
-  mixins.xAxisLabel(my, xAxisG);
-
   mixins.scale(my, "y");
+
+  mixins.autoScaleType(my, "x");
   mixins.autoScaleType(my, "y");
+
+  var xAxisG = mixins.xAxis(my, g);
   var yAxisG = mixins.yAxis(my, g);
+
+  mixins.xAxisLabel(my, xAxisG);
   mixins.yAxisLabel(my, yAxisG);
 
   mixins.marginEditor(my, svg);
 
+  
+  //// Allow the API client to optionally specify fixed min and max values.
+  //model.xDomainMin = None;
+  //model.xDomainMax = None;
+  //model.when(["data", "getX", "xDomainMin", "xDomainMax"],
+  //    function (data, getX, xDomainMin, xDomainMax) {
+
+  //  if(xDomainMin === None && xDomainMax === None){
+  //    model.xDomain = d3.extent(data, getX);
+  //  } else {
+  //    if(xDomainMin === None){
+  //      xDomainMin = d3.min(data, getX);
+  //    }
+  //    if(xDomainMax === None){
+  //      xDomainMax = d3.max(data, getX);
+  //    }
+  //    model.xDomain = [xDomainMin, xDomainMax]
+  //  }
+  //});
+
+  // TODO move this elsewhere
   my.when(["dataset", "xAccessor"], function (dataset, xAccessor){
     my.xScaleDomain = d3.extent(dataset.data, xAccessor);
   });

@@ -8,9 +8,10 @@ module.exports = function scale(my, name, initialScaleType){
   var scaleName    = name + "Scale";
   var scaleDomain  = name + "ScaleDomain";
   var scaleRange   = name + "ScaleRange";
-  var scalePadding = name + "ScaleRangePadding"
   var scaleType    = name + "ScaleType";
-  var scaled         = name + "Scaled";
+  var scaled       = name + "Scaled";
+
+  var scalePadding = name + "ScaleRangePadding"
 
   var columnName     = name + "Column";
   var columnAccessor = name + "Accessor";
@@ -60,7 +61,9 @@ module.exports = function scale(my, name, initialScaleType){
   };
 
   my.addPublicProperty(scaleDomain, Model.None);
+
   my.addPublicProperty(scaleType, initialScaleType ? initialScaleType : Model.None )
+  //my.addPublicProperty(scaleType, Model.None )
 
   // This property is relevant only for ordinal scales.
   my.addPublicProperty(scalePadding, 0.1);

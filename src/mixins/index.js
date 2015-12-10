@@ -10,15 +10,15 @@ var getColumnMetadata = ChiasmDataset.getColumnMetadata;
 // a bar chart and a histogram.
 // This is used in the histogram and heatmap visualizations.
 // It has to do with "rangeBands" vs. "rangePoints" too.
-function autoScaleType(my, prefix){
+function autoScaleType(my, name, rangeType){
 
   // TODO move these into functions, eliminate duplicate code.
-  var columnName = prefix + "Column";
-  var columnAccessor = prefix + "Accessor";
-  var scaleDomain  = prefix + "ScaleDomain";
-  var scaleType = prefix + "ScaleType";
-  var columnAccessor = prefix + "Accessor";
-  var columnMetadata = prefix + "Metadata";
+  var columnName     = name + "Column";
+  var columnAccessor = name + "Accessor";
+  var scaleDomain    = name + "ScaleDomain";
+  var scaleType      = name + "ScaleType";
+  var columnAccessor = name + "Accessor";
+  var columnMetadata = name + "Metadata";
 
   my.when(["dataset", columnMetadata, columnAccessor], function (dataset, meta, accessor){
     if(meta.interval){
@@ -28,7 +28,11 @@ function autoScaleType(my, prefix){
         // Histogram bins.
         my[scaleType] = "linear";
         my[scaleDomain] = d3.extent(dataset.data, accessor);
+
+        // This line only makes sense for rangeBands.
+        // This should not be here for rangePoints.
         my[scaleDomain][1] += meta.interval;
+      //my[rangeBand] = Math.abs( scale(metadata.interval) - scale(0) );
 
       } else if(meta.type === "date"){
         // TODO support time intervals.
@@ -52,11 +56,11 @@ function autoScaleType(my, prefix){
   });
 }
 
-function rangeBands(my, prefix){
+function rangeBands(my, name){
 
-  var scaleName = prefix + "Scale";
-  var columnMetadata = prefix + "Metadata";
-  var rangeBand = prefix + "RangeBand";
+  var scaleName = name + "Scale";
+  var columnMetadata = name + "Metadata";
+  var rangeBand      = name + "RangeBand";
 
   my.when([columnMetadata, scaleName], function (metadata, scale) {
     if(metadata.interval){

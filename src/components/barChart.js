@@ -20,6 +20,7 @@ function BarChart(){
 
   mixins.column(my, "y");
   mixins.scale(my, "y", "linear");
+  //mixins.autoScaleType(my, "x");
   var yAxisG = mixins.yAxis(my, g);
   mixins.yAxisLabel(my, yAxisG);
 
