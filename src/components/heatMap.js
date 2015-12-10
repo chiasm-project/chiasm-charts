@@ -8,7 +8,10 @@ function HeatMap() {
   var my = ChiasmComponent();
 
   var svg = d3.select(my.initSVG());
+  mixins.backgroundColor(my, svg);
+
   var g = mixins.marginConvention(my, svg);
+  mixins.marginEditor(my, svg);
 
   mixins.column(my, "x");
   mixins.column(my, "y");
@@ -25,11 +28,11 @@ function HeatMap() {
   var xAxisG = mixins.xAxis(my, g);
   var yAxisG = mixins.yAxis(my, g);
 
-  mixins.xAxisLabel(my, xAxisG);
-  mixins.yAxisLabel(my, yAxisG);
+  mixins.xAxisLabel(my, svg);
+  mixins.yAxisLabel(my, svg);
 
-  mixins.marginEditor(my, svg);
 
+  // TODO make this color scale into a mixin.
   my.addPublicProperty("colorColumn", Model.None);
   my.addPublicProperty("colorRangeMin", "#FFFFFF");
   my.addPublicProperty("colorRangeMax", "#000000");

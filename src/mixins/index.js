@@ -9,5 +9,7 @@ module.exports = {
   xAxis: require("./xAxis"),
   yAxis: require("./yAxis"),
   xAxisLabel: require("./xAxisLabel"),
-  yAxisLabel: require("./yAxisLabel")
+  yAxisLabel: require("./yAxisLabel"),
+
+  backgroundColor: require("./backgroundColor")
 };

@@ -1,17 +1,18 @@
-module.exports = function xAxisLabel(my, xAxisG){
-  var label = xAxisG.append("text").attr("class", "x axis-label");
+module.exports = function xAxisLabel(my, svg){
+
+  var label = svg.append("text").attr("class", "x axis-label");
   my.addPublicProperty("xAxisLabelText", "X Axis Label");
-  my.addPublicProperty("xAxisLabelTextOffset", 43);
+  my.addPublicProperty("xAxisLabelTextOffset", 5);
 
   my.when("xAxisLabelText", function (xAxisLabelText){
     label.text(xAxisLabelText);
   });
 
-  my.when("xAxisLabelTextOffset", function (xAxisLabelTextOffset){
-    label.attr("y", xAxisLabelTextOffset);
+  my.when(["box", "xAxisLabelTextOffset"], function (box, offset){
+    label.attr("y", box.height - offset);
   });
 
-  my.when("width", function (width){
-    label.attr("x", width / 2);
+  my.when(["margin", "width"], function (margin, width){
+    label.attr("x", margin.left + width / 2);
   });
 }

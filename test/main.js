@@ -20,8 +20,8 @@ function myApp(){
   chiasm.plugins.boxPlot = Charts.components.boxPlot;
 
   // These are custom property values used across many components.
-  var xAxisLabelTextOffset = 30;
-  var yAxisLabelTextOffset = 30;
+  var xAxisLabelTextOffset = 6;
+  var yAxisLabelTextOffset = 15;
   var margin = { top: 10, right: 10, bottom: 40, left: 42 };
 
   chiasm.setConfig({

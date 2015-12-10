@@ -11,7 +11,10 @@ function ScatterPlot(){
   });
 
   var svg = d3.select(my.initSVG());
+  mixins.backgroundColor(my, svg);
+
   var g = mixins.marginConvention(my, svg);
+  mixins.marginEditor(my, svg);
 
   mixins.column(my, "x");
   mixins.column(my, "y");
@@ -25,18 +28,15 @@ function ScatterPlot(){
   mixins.autoScaleType(my, "x", "Points");
   mixins.autoScaleType(my, "y", "Points");
 
-  my.xScaleRangePadding = 0.5;
-  my.yScaleRangePadding = 0.5;
-
   var xAxisG = mixins.xAxis(my, g);
   var yAxisG = mixins.yAxis(my, g);
 
-  mixins.xAxisLabel(my, xAxisG);
-  mixins.yAxisLabel(my, yAxisG);
+  mixins.xAxisLabel(my, svg);
+  mixins.yAxisLabel(my, svg);
 
-  mixins.marginEditor(my, svg);
+  my.xScaleRangePadding = 0.5;
+  my.yScaleRangePadding = 0.5;
 
-  
   //// Allow the API client to optionally specify fixed min and max values.
   //model.xDomainMin = None;
   //model.xDomainMax = None;

@@ -15,25 +15,28 @@ function BoxPlot(){
   });
 
   var svg = d3.select(my.initSVG());
+  mixins.backgroundColor(my, svg);
+
   var g = mixins.marginConvention(my, svg);
+  mixins.marginEditor(my, svg);
 
   mixins.column(my, "x");
   mixins.column(my, "y");
 
+  mixins.scale(my, "x");
+  mixins.scale(my, "y");
+
   mixins.scaleRange(my, "x");
   mixins.scaleRange(my, "y");
 
-  var xAxisG = mixins.xAxis(my, g);
-  mixins.scale(my, "x");
   mixins.autoScaleType(my, "x", "Bands");
-  mixins.xAxisLabel(my, xAxisG);
+  mixins.autoScaleType(my, "y", "Bands");
 
+  var xAxisG = mixins.xAxis(my, g);
   var yAxisG = mixins.yAxis(my, g);
-  mixins.scale(my, "y");
-  mixins.autoScaleType(my, "y");
-  mixins.yAxisLabel(my, yAxisG);
 
-  mixins.marginEditor(my, svg);
+  mixins.xAxisLabel(my, svg);
+  mixins.yAxisLabel(my, svg);
 
   my.when(["dataset", "xAccessor"], function (dataset, xAccessor){
     my.xScaleDomain = dataset.data.map(xAccessor);
