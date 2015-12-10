@@ -74,7 +74,7 @@ function myApp(){
     "scatterPlotDataLoader": {
       "plugin": "dsvDataset",
       "state": {
-        "path": "scatterPlotData"
+        "path": "iris"
       }
     },
     "myScatterPlot": {
@@ -92,8 +92,8 @@ function myApp(){
     "myScatterPlotOrdinalX": {
       "plugin": "scatterPlot",
       "state": {
-        "xAxisLabelText": "Class",
-        "xColumn": "class",
+        "xAxisLabelText": "Species",
+        "xColumn": "species",
         "yAxisLabelText": "Petal Length",
         "yColumn": "petal_length",
         "xAxisLabelTextOffset": xAxisLabelTextOffset,
@@ -104,8 +104,8 @@ function myApp(){
     "myBoxPlot": {
       "plugin": "boxPlot",
       "state": {
-        "xAxisLabelText": "Class",
-        "xColumn": "class",
+        "xAxisLabelText": "Species",
+        "xColumn": "species",
         "yAxisLabelText": "Sepal Length",
         "yColumn": "sepal_length",
         "xAxisLabelTextOffset": xAxisLabelTextOffset,
