@@ -3,7 +3,7 @@ var Model = require("model-js");
 var ChiasmDataset = require("chiasm-dataset");
 var getColumnMetadata = ChiasmDataset.getColumnMetadata;
 
-module.exports = function scale(my, name, initialScaleType){
+module.exports = function scale(my, name){
 
   var scaleName    = name + "Scale";
   var scaleDomain  = name + "ScaleDomain";
@@ -45,8 +45,6 @@ module.exports = function scale(my, name, initialScaleType){
           // TODO what about rangePoints?
           my[scaleName] = myScale.domain(domain)
             .rangeBands(range, padding);
-          //console.log(domain);
-          //my[scaleName] = myScale.domain(domain).rangePoints(range, padding);
         }
       });
     },
@@ -62,8 +60,7 @@ module.exports = function scale(my, name, initialScaleType){
 
   my.addPublicProperty(scaleDomain, Model.None);
 
-  my.addPublicProperty(scaleType, initialScaleType ? initialScaleType : Model.None )
-  //my.addPublicProperty(scaleType, Model.None )
+  my.addPublicProperty(scaleType, Model.None )
 
   // This property is relevant only for ordinal scales.
   my.addPublicProperty(scalePadding, 0.1);

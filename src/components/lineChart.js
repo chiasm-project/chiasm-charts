@@ -16,11 +16,13 @@ function LineChart(){
   mixins.column(my, "x");
   mixins.column(my, "y");
 
-  mixins.scale(my, "x", "time");
+  mixins.scale(my, "x");
+  mixins.autoScaleType(my, "x");
   var xAxisG = mixins.xAxis(my, g);
   mixins.xAxisLabel(my, xAxisG);
 
-  mixins.scale(my, "y", "linear");
+  mixins.scale(my, "y");
+  mixins.autoScaleType(my, "y");
   var yAxisG = mixins.yAxis(my, g);
   mixins.yAxisLabel(my, yAxisG);
 

@@ -27,6 +27,8 @@ function autoScaleType(my, name, rangeType){
 
         // Histogram bins.
         my[scaleType] = "linear";
+
+        // TODO split out domain concerns.
         my[scaleDomain] = d3.extent(dataset.data, accessor);
 
         // This line only makes sense for rangeBands.
@@ -35,6 +37,9 @@ function autoScaleType(my, name, rangeType){
       //my[rangeBand] = Math.abs( scale(metadata.interval) - scale(0) );
 
       } else if(meta.type === "date"){
+        // Temporal bins.
+        my[scaleType] = "time";
+
         // TODO support time intervals.
       }
 
@@ -49,9 +54,11 @@ function autoScaleType(my, name, rangeType){
         my[scaleDomain] = dataset.data.map(accessor);
 
       } else if(meta.type === "date"){
-        // TODO support time intervals.
-      }
+        my[scaleType] = "time";
 
+        // TODO split out domain concerns.
+        my[scaleDomain] = d3.extent(dataset.data, accessor);
+      }
     }
   });
 }

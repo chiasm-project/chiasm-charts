@@ -19,8 +19,9 @@ function BarChart(){
   mixins.xAxisLabel(my, xAxisG);
 
   mixins.column(my, "y");
-  mixins.scale(my, "y", "linear");
-  //mixins.autoScaleType(my, "x");
+  mixins.scale(my, "y");
+  mixins.autoScaleType(my, "y");
+
   var yAxisG = mixins.yAxis(my, g);
   mixins.yAxisLabel(my, yAxisG);
 

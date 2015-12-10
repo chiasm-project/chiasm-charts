@@ -21,11 +21,13 @@ function BoxPlot(){
   mixins.column(my, "y");
 
   var xAxisG = mixins.xAxis(my, g);
-  mixins.scale(my, "x", "ordinal");
+  mixins.scale(my, "x");
+  mixins.autoScaleType(my, "x");
   mixins.xAxisLabel(my, xAxisG);
 
   var yAxisG = mixins.yAxis(my, g);
-  mixins.scale(my, "y", "linear");
+  mixins.scale(my, "y");
+  mixins.autoScaleType(my, "y");
   mixins.yAxisLabel(my, yAxisG);
 
   mixins.marginEditor(my, svg);
