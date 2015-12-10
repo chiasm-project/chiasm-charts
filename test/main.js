@@ -126,6 +126,8 @@ function myApp(){
         "xColumn": "name",
         "yAxisLabelText": "Amount",
         "yColumn": "amount",
+        "fill": "#1EABE8",
+        "stroke": "#008CC8",
         "xAxisLabelTextOffset": xAxisLabelTextOffset,
         "yAxisLabelTextOffset": yAxisLabelTextOffset,
         "margin": margin
