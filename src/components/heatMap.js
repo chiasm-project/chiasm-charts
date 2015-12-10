@@ -13,6 +13,9 @@ function HeatMap() {
   mixins.column(my, "x");
   mixins.column(my, "y");
 
+  mixins.scaleRange(my, "x");
+  mixins.scaleRange(my, "y");
+
   mixins.scale(my, "x");
   mixins.autoScaleType(my, "x");
   mixins.rangeBands(my, "x");

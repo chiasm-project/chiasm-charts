@@ -17,17 +17,6 @@ module.exports = function scale(my, name){
   var columnAccessor = name + "Accessor";
   var columnMetadata = name + "Metadata";
 
-  // TODO this feels like it should be elsewhere.
-  if(name === "x"){
-    my.when("width", function (width){
-      my[scaleRange] = [0, width];
-    });
-  } else if(name === "y"){
-    my.when("height", function (height){
-      my[scaleRange] = [height, 0];
-    });
-  }
-
   var scaleTypes = {
     linear: function (my){
       var myScale = d3.scale.linear();

@@ -92,6 +92,7 @@ module.exports = {
   marginEditor: require("./marginEditor"),
   column: require("./column"),
   scale: require("./scale"),
+  scaleRange: require("./scaleRange"),
   autoScaleType: autoScaleType,
   rangeBands: rangeBands,
   xAxis: require("./xAxis"),

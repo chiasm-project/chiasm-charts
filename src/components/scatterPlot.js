@@ -19,6 +19,9 @@ function ScatterPlot(){
   mixins.scale(my, "x");
   mixins.scale(my, "y");
 
+  mixins.scaleRange(my, "x");
+  mixins.scaleRange(my, "y");
+
   mixins.autoScaleType(my, "x", "Points");
   mixins.autoScaleType(my, "y", "Points");
 

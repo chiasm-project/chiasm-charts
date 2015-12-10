@@ -12,6 +12,7 @@ function BarChart(){
 
   mixins.column(my, "x");
   mixins.scale(my, "x");
+  mixins.scaleRange(my, "x");
   mixins.autoScaleType(my, "x");
   mixins.rangeBands(my, "x");
 
@@ -20,6 +21,7 @@ function BarChart(){
 
   mixins.column(my, "y");
   mixins.scale(my, "y");
+  mixins.scaleRange(my, "y");
   mixins.autoScaleType(my, "y");
 
   var yAxisG = mixins.yAxis(my, g);

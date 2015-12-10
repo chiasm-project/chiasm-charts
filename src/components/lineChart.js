@@ -16,6 +16,9 @@ function LineChart(){
   mixins.column(my, "x");
   mixins.column(my, "y");
 
+  mixins.scaleRange(my, "x");
+  mixins.scaleRange(my, "y");
+
   mixins.scale(my, "x");
   mixins.autoScaleType(my, "x");
   var xAxisG = mixins.xAxis(my, g);
