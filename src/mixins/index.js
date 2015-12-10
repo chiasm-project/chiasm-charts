@@ -12,7 +12,7 @@ var getColumnMetadata = ChiasmDataset.getColumnMetadata;
 // It has to do with "rangeBands" vs. "rangePoints" too.
 function autoScaleType(my, name, ordinalRangeType){
 
-  ordinalRangeType = ordinalRangeType ? ordinalRangeType : "Bands";
+  ordinalRangeType = ordinalRangeType ? ordinalRangeType : "Points";
 
   // TODO move these into functions, eliminate duplicate code.
   var columnName     = name + "Column";
@@ -66,25 +66,23 @@ function autoScaleType(my, name, ordinalRangeType){
       }
     }
   });
-}
 
-function rangeBands(my, name){
-
+  var rangeBand = name + "RangeBand";
   var scaleName = name + "Scale";
-  var columnMetadata = name + "Metadata";
-  var rangeBand      = name + "RangeBand";
 
-  my.when([columnMetadata, scaleName], function (metadata, scale) {
-    if(metadata.interval){
+  if(ordinalRangeType === "Bands"){
+    my.when([columnMetadata, scaleName], function (metadata, scale) {
+      if(metadata.interval){
 
-      // Histogram bins.
-      my[rangeBand] = Math.abs( scale(metadata.interval) - scale(0) );
-    } else {
+        // Histogram bins.
+        my[rangeBand] = Math.abs( scale(metadata.interval) - scale(0) );
+      } else {
 
-      // Typical ordinal bars.
-      my[rangeBand] = scale.rangeBand();
-    }
-  });
+        // Typical ordinal bars.
+        my[rangeBand] = scale.rangeBand();
+      }
+    });
+  }
 }
 
 module.exports = {
@@ -94,7 +92,6 @@ module.exports = {
   scale: require("./scale"),
   scaleRange: require("./scaleRange"),
   autoScaleType: autoScaleType,
-  rangeBands: rangeBands,
   xAxis: require("./xAxis"),
   yAxis: require("./yAxis"),
   xAxisLabel: require("./xAxisLabel"),

@@ -17,17 +17,15 @@ function HeatMap() {
   mixins.scaleRange(my, "y");
 
   mixins.scale(my, "x");
-  mixins.autoScaleType(my, "x");
-  mixins.rangeBands(my, "x");
+  mixins.scale(my, "y");
+
+  mixins.autoScaleType(my, "x", "Bands");
+  mixins.autoScaleType(my, "y", "Bands");
 
   var xAxisG = mixins.xAxis(my, g);
-  mixins.xAxisLabel(my, xAxisG);
-
-  mixins.scale(my, "y");
-  mixins.autoScaleType(my, "y");
-  mixins.rangeBands(my, "y");
-
   var yAxisG = mixins.yAxis(my, g);
+
+  mixins.xAxisLabel(my, xAxisG);
   mixins.yAxisLabel(my, yAxisG);
 
   mixins.marginEditor(my, svg);

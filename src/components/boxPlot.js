@@ -25,7 +25,7 @@ function BoxPlot(){
 
   var xAxisG = mixins.xAxis(my, g);
   mixins.scale(my, "x");
-  mixins.autoScaleType(my, "x");
+  mixins.autoScaleType(my, "x", "Bands");
   mixins.xAxisLabel(my, xAxisG);
 
   var yAxisG = mixins.yAxis(my, g);
