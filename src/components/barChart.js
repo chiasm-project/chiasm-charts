@@ -10,6 +10,7 @@ function BarChart(){
   var svg = d3.select(my.initSVG());
   var g = mixins.marginConvention(my, svg);
 
+  mixins.column(my, "x");
   mixins.scale(my, "x");
   mixins.autoScaleType(my, "x");
   mixins.rangeBands(my, "x");
@@ -17,6 +18,7 @@ function BarChart(){
   var xAxisG = mixins.xAxis(my, g);
   mixins.xAxisLabel(my, xAxisG);
 
+  mixins.column(my, "y");
   mixins.scale(my, "y", "linear");
   var yAxisG = mixins.yAxis(my, g);
   mixins.yAxisLabel(my, yAxisG);

@@ -13,12 +13,15 @@ function LineChart(){
   var svg = d3.select(my.initSVG());
   var g = mixins.marginConvention(my, svg);
 
-  var xAxisG = mixins.xAxis(my, g);
+  mixins.column(my, "x");
+  mixins.column(my, "y");
+
   mixins.scale(my, "x", "time");
+  var xAxisG = mixins.xAxis(my, g);
   mixins.xAxisLabel(my, xAxisG);
 
-  var yAxisG = mixins.yAxis(my, g);
   mixins.scale(my, "y", "linear");
+  var yAxisG = mixins.yAxis(my, g);
   mixins.yAxisLabel(my, yAxisG);
 
   mixins.marginEditor(my, svg);

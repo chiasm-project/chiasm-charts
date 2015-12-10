@@ -10,6 +10,9 @@ function HeatMap() {
   var svg = d3.select(my.initSVG());
   var g = mixins.marginConvention(my, svg);
 
+  mixins.column(my, "x");
+  mixins.column(my, "y");
+
   mixins.scale(my, "x");
   mixins.autoScaleType(my, "x");
   mixins.rangeBands(my, "x");

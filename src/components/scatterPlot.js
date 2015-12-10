@@ -13,11 +13,16 @@ function ScatterPlot(){
   var svg = d3.select(my.initSVG());
   var g = mixins.marginConvention(my, svg);
 
-  mixins.scale(my, "x", "linear")
+  mixins.column(my, "x");
+  mixins.column(my, "y");
+
+  mixins.scale(my, "x");
+  mixins.autoScaleType(my, "x");
   var xAxisG = mixins.xAxis(my, g);
   mixins.xAxisLabel(my, xAxisG);
 
-  mixins.scale(my, "y", "linear");
+  mixins.scale(my, "y");
+  mixins.autoScaleType(my, "y");
   var yAxisG = mixins.yAxis(my, g);
   mixins.yAxisLabel(my, yAxisG);
 

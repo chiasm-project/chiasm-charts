@@ -1,31 +1,27 @@
 var d3 = require("d3");
 var Model = require("model-js");
 var ChiasmDataset = require("chiasm-dataset");
-
-// TODO use ES6 modules to make this nicer
 var getColumnMetadata = ChiasmDataset.getColumnMetadata;
 
-module.exports = function scale(my, prefix, initialScaleType){
+module.exports = function scale(my, name, initialScaleType){
 
-  var scaleName    = prefix + "Scale";
-  var scaleDomain  = prefix + "ScaleDomain";
-  var scaleRange   = prefix + "ScaleRange";
-  var scalePadding = prefix + "ScaleRangePadding"
-  var scaleType    = prefix + "ScaleType";
+  var scaleName    = name + "Scale";
+  var scaleDomain  = name + "ScaleDomain";
+  var scaleRange   = name + "ScaleRange";
+  var scalePadding = name + "ScaleRangePadding"
+  var scaleType    = name + "ScaleType";
+  var scaled         = name + "Scaled";
 
-  var columnName     = prefix + "Column";
-  var columnAccessor = prefix + "Accessor";
-  var scaled         = prefix + "Scaled";
-  var columnMetadata = prefix + "Metadata";
-
-  my.addPublicProperty(columnName, Model.None);
+  var columnName     = name + "Column";
+  var columnAccessor = name + "Accessor";
+  var columnMetadata = name + "Metadata";
 
   // TODO this feels like it should be elsewhere.
-  if(prefix === "x"){
+  if(name === "x"){
     my.when("width", function (width){
       my[scaleRange] = [0, width];
     });
-  } else if(prefix === "y"){
+  } else if(name === "y"){
     my.when("height", function (height){
       my[scaleRange] = [height, 0];
     });
@@ -46,7 +42,10 @@ module.exports = function scale(my, prefix, initialScaleType){
         if(domain !== Model.None && range !== Model.None){
 
           // TODO what about rangePoints?
-          my[scaleName] = myScale.domain(domain).rangeBands(range, padding);
+          my[scaleName] = myScale.domain(domain)
+            .rangeBands(range, padding);
+          //console.log(domain);
+          //my[scaleName] = myScale.domain(domain).rangePoints(range, padding);
         }
       });
     },
@@ -78,18 +77,7 @@ module.exports = function scale(my, prefix, initialScaleType){
     }
   });
 
-  my.when(columnName, function (column){
-    my[columnAccessor] = function (d){ return d[column]; };
+  my.when([scaleName, columnAccessor], function (scale, accessor){
+    my[scaled] = function (d){ return scale(accessor(d)); };
   });
-
-  my.when([scaleName, columnName], function (scale, column){
-    my[scaled] = function (d){ return scale(d[column]); };
-  });
-  
-  my.when(["dataset", columnName], function (dataset, column){
-    if(column !== Model.None){
-      my[columnMetadata] = getColumnMetadata(dataset, column);
-    }
-  });
-
 }

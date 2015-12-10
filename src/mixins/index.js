@@ -23,28 +23,31 @@ function autoScaleType(my, prefix){
   my.when(["dataset", columnMetadata, columnAccessor], function (dataset, meta, accessor){
     if(meta.interval){
 
-      // TODO use symbols, e.g. ChiasmDataset.NUMBER rather than strings.
-      // TODO use ES6 modules, where symbols make more sense.
-      var columnIsNumber = (meta.type === "number");
-      var columnIsDate = (meta.type === "date");
-
-      if(columnIsNumber){
+      if(meta.type === "number"){
 
         // Histogram bins.
         my[scaleType] = "linear";
         my[scaleDomain] = d3.extent(dataset.data, accessor);
         my[scaleDomain][1] += meta.interval;
 
-      } else if(columnIsDate){
-
+      } else if(meta.type === "date"){
         // TODO support time intervals.
       }
 
     } else {
 
-      // Typical ordinal bars.
-      my[scaleType] = "ordinal";
-      my[scaleDomain] = dataset.data.map(accessor);
+      if(meta.type === "number"){
+        my[scaleType] = "linear";
+      } else if(meta.type === "string"){
+
+        // Typical ordinal bars.
+        my[scaleType] = "ordinal";
+        my[scaleDomain] = dataset.data.map(accessor);
+
+      } else if(meta.type === "date"){
+        // TODO support time intervals.
+      }
+
     }
   });
 }
@@ -71,6 +74,7 @@ function rangeBands(my, prefix){
 module.exports = {
   marginConvention: require("./marginConvention"),
   marginEditor: require("./marginEditor"),
+  column: require("./column"),
   scale: require("./scale"),
   autoScaleType: autoScaleType,
   rangeBands: rangeBands,

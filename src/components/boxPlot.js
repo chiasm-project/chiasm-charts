@@ -17,6 +17,9 @@ function BoxPlot(){
   var svg = d3.select(my.initSVG());
   var g = mixins.marginConvention(my, svg);
 
+  mixins.column(my, "x");
+  mixins.column(my, "y");
+
   var xAxisG = mixins.xAxis(my, g);
   mixins.scale(my, "x", "ordinal");
   mixins.xAxisLabel(my, xAxisG);
