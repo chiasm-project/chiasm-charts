@@ -19,8 +19,11 @@ function ScatterPlot(){
   mixins.scale(my, "x");
   mixins.scale(my, "y");
 
-  mixins.autoScaleType(my, "x");
-  mixins.autoScaleType(my, "y");
+  mixins.autoScaleType(my, "x", "Points");
+  mixins.autoScaleType(my, "y", "Points");
+
+  my.xScaleRangePadding = 0.5;
+  my.yScaleRangePadding = 0.5;
 
   var xAxisG = mixins.xAxis(my, g);
   var yAxisG = mixins.yAxis(my, g);
@@ -51,9 +54,9 @@ function ScatterPlot(){
   //});
 
   // TODO move this elsewhere
-  my.when(["dataset", "xAccessor"], function (dataset, xAccessor){
-    my.xScaleDomain = d3.extent(dataset.data, xAccessor);
-  });
+  //my.when(["dataset", "xAccessor"], function (dataset, xAccessor){
+  //  my.xScaleDomain = d3.extent(dataset.data, xAccessor);
+  //});
   
   my.when(["dataset", "yAccessor"], function (dataset, yAccessor){
     my.yScaleDomain = d3.extent(dataset.data, yAccessor);

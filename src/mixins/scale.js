@@ -37,14 +37,23 @@ module.exports = function scale(my, name){
         }
       });
     },
-    ordinal: function (my){
+    ordinalBands: function (my){
       var myScale = d3.scale.ordinal();
       return my.when([scaleDomain, scaleRange, scalePadding], function (domain, range, padding){
         if(domain !== Model.None && range !== Model.None){
-
-          // TODO what about rangePoints?
-          my[scaleName] = myScale.domain(domain)
+          my[scaleName] = myScale
+            .domain(domain)
             .rangeBands(range, padding);
+        }
+      });
+    },
+    ordinalPoints: function (my){
+      var myScale = d3.scale.ordinal();
+      return my.when([scaleDomain, scaleRange, scalePadding], function (domain, range, padding){
+        if(domain !== Model.None && range !== Model.None){
+          my[scaleName] = myScale
+            .domain(domain)
+            .rangePoints(range, padding);
         }
       });
     },

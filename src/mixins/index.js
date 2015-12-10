@@ -10,7 +10,9 @@ var getColumnMetadata = ChiasmDataset.getColumnMetadata;
 // a bar chart and a histogram.
 // This is used in the histogram and heatmap visualizations.
 // It has to do with "rangeBands" vs. "rangePoints" too.
-function autoScaleType(my, name, rangeType){
+function autoScaleType(my, name, ordinalRangeType){
+
+  ordinalRangeType = ordinalRangeType ? ordinalRangeType : "Bands";
 
   // TODO move these into functions, eliminate duplicate code.
   var columnName     = name + "Column";
@@ -47,10 +49,13 @@ function autoScaleType(my, name, rangeType){
 
       if(meta.type === "number"){
         my[scaleType] = "linear";
+
+        // TODO split out domain concerns.
+        my[scaleDomain] = d3.extent(dataset.data, accessor);
       } else if(meta.type === "string"){
 
         // Typical ordinal bars.
-        my[scaleType] = "ordinal";
+        my[scaleType] = "ordinal" + ordinalRangeType;
         my[scaleDomain] = dataset.data.map(accessor);
 
       } else if(meta.type === "date"){
