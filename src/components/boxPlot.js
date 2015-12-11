@@ -30,7 +30,7 @@ function BoxPlot(){
   mixins.scaleRange(my, "y");
 
   mixins.autoScaleType(my, "x", "Bands");
-  mixins.autoScaleType(my, "y", "Bands");
+  mixins.autoScaleType(my, "y");
 
   var xAxisG = mixins.xAxis(my, g);
   var yAxisG = mixins.yAxis(my, g);

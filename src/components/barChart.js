@@ -27,7 +27,7 @@ function BarChart(){
   mixins.scaleRange(my, "y");
 
   mixins.autoScaleType(my, "x", "Bands");
-  mixins.autoScaleType(my, "y", "Bands");
+  mixins.autoScaleType(my, "y");
 
   // The placement of this line ensures that the bars are drawn
   // behind the axis.
