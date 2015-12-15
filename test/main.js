@@ -81,10 +81,12 @@ function myApp(){
     "myScatterPlot": {
       "plugin": "scatterPlot",
       "state": {
-        "xAxisLabelText": "Species",
-        "xColumn": "species",
+        "xAxisLabelText": "Petal Width",
+        "xColumn": "petal_width",
         "yAxisLabelText": "Petal Length",
         "yColumn": "petal_length",
+        // TODO add fill & stroke mixin
+        //"fill": "red",
         "xAxisLabelTextOffset": xAxisLabelTextOffset,
         "yAxisLabelTextOffset": yAxisLabelTextOffset,
         "margin": margin
