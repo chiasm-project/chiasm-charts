@@ -25,6 +25,8 @@ function HeatMap() {
   mixins.autoScaleType(my, "x", "Bands");
   mixins.autoScaleType(my, "y", "Bands");
 
+  var marksG = g.append("g");
+
   var xAxisG = mixins.xAxis(my, g);
   var yAxisG = mixins.yAxis(my, g);
 
@@ -52,15 +54,16 @@ function HeatMap() {
   my.when(["dataset", "xScaled", "yScaled", "xRangeBand", "yRangeBand", "colorScaled"],
       function (dataset, xScaled, yScaled, xRangeBand, yRangeBand, colorScaled) {
 
-    var bars = g.selectAll("rect").data(dataset.data);
-    bars.enter().append("rect");
-    bars
+    var marks = marksG.selectAll("rect").data(dataset.data);
+    marks.enter().append("rect");
+    marks.exit().remove();
+    
+    marks
       .attr("x", xScaled)
       .attr("width", xRangeBand)
       .attr("y", function (d){ return yScaled(d) - yRangeBand; })
       .attr("height", yRangeBand)
       .attr("fill", colorScaled);
-    bars.exit().remove();
 
   });
 

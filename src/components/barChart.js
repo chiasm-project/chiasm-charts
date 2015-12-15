@@ -29,9 +29,7 @@ function BarChart(){
   mixins.autoScaleType(my, "x", "Bands");
   mixins.autoScaleType(my, "y");
 
-  // The placement of this line ensures that the bars are drawn
-  // behind the axis.
-  var barsG = g.append("g");
+  var marksG = g.append("g");
 
   var xAxisG = mixins.xAxis(my, g);
   var yAxisG = mixins.yAxis(my, g);
@@ -47,9 +45,11 @@ function BarChart(){
   my.when(["dataset", "xScaled", "yScaled", "height", "xRangeBand", "fill", "stroke", "strokeWidth"],
       function (dataset, xScaled, yScaled, height, xRangeBand, fill, stroke, strokeWidth){
 
-    var bars = barsG.selectAll("rect").data(dataset.data);
-    bars.enter().append("rect");
-    bars
+    var marks = marksG.selectAll("rect").data(dataset.data);
+    marks.enter().append("rect");
+    marks.exit().remove();
+
+    marks
       .attr("x", xScaled)
       .attr("width", xRangeBand)
       .attr("y", yScaled)
@@ -57,7 +57,6 @@ function BarChart(){
       .style("stroke", stroke)
       .style("stroke-width", strokeWidth)
       .style("fill", fill);
-    bars.exit().remove();
 
   });
 
