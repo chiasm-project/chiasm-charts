@@ -46,6 +46,7 @@ function myApp(){
               "children": [
                 "myHistogram",
                 "myHeatmap",
+                "myHeatmapOrdinal",
                 {
                   "orientation": "vertical",
                   "children": [
@@ -218,6 +219,40 @@ function myApp(){
         "margin": margin
       }
     },
+    "heatmapOrdinalData": {
+      "plugin": "dataReduction",
+      "state": {
+        "aggregate": {
+          "dimensions": [
+            {
+              "column": "petal_length",
+              "histogram": true,
+              "numBins": 15
+            },
+            {
+              "column": "species"
+            }
+          ],
+          "measures": [{
+            "outColumn": "count", 
+            "operator": "count"
+          }]
+        }
+      }
+    },
+    "myHeatmapOrdinal": {
+      "plugin": "heatMap",
+      "state": {
+        "xAxisLabelText": "Species",
+        "xColumn": "species",
+        "yAxisLabelText": "Petal Length",
+        "yColumn": "petal_length",
+        "colorColumn": "count",
+        "xAxisLabelTextOffset": xAxisLabelTextOffset,
+        "yAxisLabelTextOffset": yAxisLabelTextOffset,
+        "margin": margin
+      }
+    },
     "myLinks": {
       "plugin": "links",
       "state": {
@@ -229,9 +264,11 @@ function myApp(){
           "scatterPlotDataLoader.dataset -> myBoxPlot.dataset",
           "scatterPlotDataLoader.dataset -> histogramData.datasetIn",
           "scatterPlotDataLoader.dataset -> heatmapData.datasetIn",
+          "scatterPlotDataLoader.dataset -> heatmapOrdinalData.datasetIn",
           "barChartDataLoader.dataset -> myBarChart.dataset",
           "histogramData.datasetOut -> myHistogram.dataset",
-          "heatmapData.datasetOut -> myHeatmap.dataset"
+          "heatmapData.datasetOut -> myHeatmap.dataset",
+          "heatmapOrdinalData.datasetOut -> myHeatmapOrdinal.dataset"
         ]
       }
     }
