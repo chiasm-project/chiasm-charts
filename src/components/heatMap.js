@@ -36,7 +36,7 @@ function HeatMap() {
 
   // TODO make this color scale into a mixin.
   my.addPublicProperty("colorColumn", Model.None);
-  my.addPublicProperty("colorRangeMin", "#FFFFFF");
+  my.addPublicProperty("colorRangeMin", "#EEEECC");
   my.addPublicProperty("colorRangeMax", "#000000");
 
   my.when(["dataset", "colorColumn", "colorRangeMin", "colorRangeMax"],
@@ -51,40 +51,32 @@ function HeatMap() {
     };
   });
 
-  my.when(["dataset", "xScaled", "yScaled", "xRangeBand", "yRangeBand", "colorScaled"],
-      function (dataset, xScaled, yScaled, xRangeBand, yRangeBand, colorScaled) {
-
+  my.when("dataset", function (dataset){
     var marks = marksG.selectAll("rect").data(dataset.data);
     marks.enter().append("rect");
     marks.exit().remove();
-    
+    my.marks = marks;
+  });
+
+  my.when(["marks", "xScaled", "yScaled", "xRangeBand", "yRangeBand", "colorScaled"],
+      function (marks, xScaled, yScaled, xRangeBand, yRangeBand, colorScaled) {
     marks
       .attr("x", xScaled)
       .attr("width", xRangeBand)
       .attr("y", function (d){ return yScaled(d) - yRangeBand; })
       .attr("height", yRangeBand)
-      .attr("fill", colorScaled);
-
   });
 
+  my.when(["marks", "colorScaled"], function (marks, colorScaled){
+    marks.style("fill", colorScaled);
+  });
 
-  //my.when(["data", "yScale", "yColumn", "height"], function (data, yScale, yColumn, height){
-  //  // TODO move this logic to scale creation
-  //  yScale.rangeBands([height, 0]);
-  //  my.y = function(d) { 
-
-  //    // Using yScale.step here is kind of an ugly hack to get the
-  //    // right behavior for both linear and ordinal id scales on the Y axis.
-  //    return yScale(d[yColumn] + yScale.step);
-  //  };
+  //my.when(["fill", "stroke", "strokeWidth"], function (fill, stroke, strokeWidth){
+  //  marks
+  //    .style("stroke", stroke)
+  //    .style("stroke-width", strokeWidth)
+  //    .style("fill", fill);
   //});
-
-  //function updateBarStyles(){
-  //  my.rects
-  //    .attr("stroke", my.stroke)
-  //    .attr("stroke-width", my.strokeWidth);
-  //}
-  //my.when(["rects", "stroke", "strokeWidth"], updateBarStyles)
 
   return my;
 }

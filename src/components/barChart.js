@@ -42,22 +42,27 @@ function BarChart(){
     my.yScaleDomain = [ 0, d3.max(dataset.data, yAccessor) ]
   });
 
-  my.when(["dataset", "xScaled", "yScaled", "height", "xRangeBand", "fill", "stroke", "strokeWidth"],
-      function (dataset, xScaled, yScaled, height, xRangeBand, fill, stroke, strokeWidth){
-
+  my.when("dataset", function (dataset){
     var marks = marksG.selectAll("rect").data(dataset.data);
     marks.enter().append("rect");
     marks.exit().remove();
+    my.marks = marks;
+  });
 
+  my.when(["marks", "xScaled", "yScaled", "height", "xRangeBand"],
+      function (marks, xScaled, yScaled, height, xRangeBand){
     marks
       .attr("x", xScaled)
       .attr("width", xRangeBand)
       .attr("y", yScaled)
-      .attr("height", function (d){ return height - yScaled(d); })
+      .attr("height", function (d){ return height - yScaled(d); });
+  });
+
+  my.when(["marks", "fill", "stroke", "strokeWidth"], function (marks, fill, stroke, strokeWidth){
+    marks
       .style("stroke", stroke)
       .style("stroke-width", strokeWidth)
       .style("fill", fill);
-
   });
 
   return my;
