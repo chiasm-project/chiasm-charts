@@ -39,7 +39,10 @@ module.exports = function marginEditor(my, svg){
   my.when("marginEditorFill", function (marginEditorFill){
     handles
       .on("mouseenter", function (){
-        d3.select(this).style("fill", marginEditorFill);
+        // Do not show the handle if the user is in the middle of dragging something else.
+        if(!d3.event.buttons){
+          d3.select(this).style("fill", marginEditorFill);
+        }
       })
       .on("mouseout", function (){
         d3.select(this).style("fill", "none");
