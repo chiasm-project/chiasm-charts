@@ -38,7 +38,6 @@ function myApp(){
                 "myBarChart",
                 "myScatterPlot",
                 "myScatterPlotOrdinalX",
-                "myScatterPlotTimeX",
                 "myBoxPlot"
               ]
             },
@@ -47,7 +46,13 @@ function myApp(){
               "children": [
                 "myHistogram",
                 "myHeatmap",
-                "myLineChart"
+                {
+                  "orientation": "vertical",
+                  "children": [
+                    "myScatterPlotTimeX",
+                    "myLineChart"
+                  ]
+                },
               ]
             }
           ]
@@ -85,8 +90,6 @@ function myApp(){
         "xColumn": "petal_width",
         "yAxisLabelText": "Petal Length",
         "yColumn": "petal_length",
-        // TODO add fill & stroke mixin
-        //"fill": "red",
         "xAxisLabelTextOffset": xAxisLabelTextOffset,
         "yAxisLabelTextOffset": yAxisLabelTextOffset,
         "margin": margin
@@ -99,6 +102,8 @@ function myApp(){
         "xColumn": "species",
         "yAxisLabelText": "Petal Length",
         "yColumn": "petal_length",
+        "circleRadius": 20,
+        "fill": "rgba(100, 0, 0, 0.1)",
         "xAxisLabelTextOffset": xAxisLabelTextOffset,
         "yAxisLabelTextOffset": yAxisLabelTextOffset,
         "margin": margin

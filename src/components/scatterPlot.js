@@ -65,17 +65,32 @@ function ScatterPlot(){
     my.yScaleDomain = d3.extent(dataset.data, yAccessor);
   });
 
-  my.when(["dataset", "xScaled", "yScaled", "circleRadius"],
-      function (dataset, xScaled, yScaled, circleRadius) {
+  my.when("dataset", function (dataset) {
+    var marks = g.selectAll("circle").data(dataset.data);
+    marks.enter().append("circle");
+    marks.exit().remove();
+    my.marks = marks;
+  });
 
-    var circles = g.selectAll("circle").data(dataset.data);
-    circles.enter().append("circle");
-    circles
+  my.when(["marks", "xScaled", "yScaled", "circleRadius"],
+      function (marks, xScaled, yScaled, circleRadius) {
+    marks
       .attr("cx", xScaled)
       .attr("cy", yScaled)
       .attr("r", circleRadius);
-    circles.exit().remove();
+  });
 
+  // TODO figure out how to deal with color scales, then make this a mixin.
+  my.addPublicProperties({
+    fill: "black",
+    stroke: "none",
+    strokeWidth: "1px"
+  });
+  my.when(["marks", "fill", "stroke", "strokeWidth"], function (marks, fill, stroke, strokeWidth){
+    marks
+      .style("stroke", stroke)
+      .style("stroke-width", strokeWidth)
+      .style("fill", fill);
   });
 
   return my;

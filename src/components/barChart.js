@@ -5,11 +5,7 @@ var mixins = require("../mixins");
 
 function BarChart(){
 
-  var my = ChiasmComponent({
-    fill: "black",
-    stroke: "none",
-    strokeWidth: "1px"
-  });
+  var my = ChiasmComponent();
 
   var svg = d3.select(my.initSVG());
   mixins.backgroundColor(my, svg);
@@ -58,6 +54,12 @@ function BarChart(){
       .attr("height", function (d){ return height - yScaled(d); });
   });
 
+  // TODO figure out how to deal with color scales, then make this a mixin.
+  my.addPublicProperties({
+    fill: "black",
+    stroke: "none",
+    strokeWidth: "1px"
+  });
   my.when(["marks", "fill", "stroke", "strokeWidth"], function (marks, fill, stroke, strokeWidth){
     marks
       .style("stroke", stroke)
