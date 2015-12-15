@@ -58,12 +58,16 @@ function HeatMap() {
     my.marks = marks;
   });
 
-  my.when(["marks", "xScaled", "yScaled", "xRangeBand", "yRangeBand", "colorScaled"],
-      function (marks, xScaled, yScaled, xRangeBand, yRangeBand, colorScaled) {
+  my.when(["marks", "xScaled", "yScaled", "yScaleType", "xRangeBand", "yRangeBand", "colorScaled"],
+      function (marks, xScaled, yScaled, yScaleType, xRangeBand, yRangeBand, colorScaled) {
+
+    // This line makes it work for both numeric intervals and ordinal scales.
+    var yOffset = (yScaleType === "linear") ? yRangeBand : 0;
+
     marks
       .attr("x", xScaled)
       .attr("width", xRangeBand)
-      .attr("y", function (d){ return yScaled(d) - yRangeBand; })
+      .attr("y", function (d){ return yScaled(d) - yOffset; })
       .attr("height", yRangeBand)
   });
 

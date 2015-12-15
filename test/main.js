@@ -46,14 +46,20 @@ function myApp(){
               "children": [
                 "myHistogram",
                 "myHeatmap",
-                "myHeatmapOrdinal",
+                {
+                  "orientation": "vertical",
+                  "children": [
+                    "myHeatmapOrdinal",
+                    "myHeatmapOrdinalY"
+                  ]
+                },
                 {
                   "orientation": "vertical",
                   "children": [
                     "myScatterPlotTimeX",
                     "myLineChart"
                   ]
-                },
+                }
               ]
             }
           ]
@@ -253,6 +259,19 @@ function myApp(){
         "margin": margin
       }
     },
+    "myHeatmapOrdinalY": {
+      "plugin": "heatMap",
+      "state": {
+        "xAxisLabelText": "Petal Length",
+        "xColumn": "petal_length",
+        "yAxisLabelText": "Species",
+        "yColumn": "species",
+        "colorColumn": "count",
+        "xAxisLabelTextOffset": xAxisLabelTextOffset,
+        "yAxisLabelTextOffset": yAxisLabelTextOffset,
+        "margin": { top: 10, right: 10, bottom: 40, left: 75 }
+      }
+    },
     "myLinks": {
       "plugin": "links",
       "state": {
@@ -268,7 +287,8 @@ function myApp(){
           "barChartDataLoader.dataset -> myBarChart.dataset",
           "histogramData.datasetOut -> myHistogram.dataset",
           "heatmapData.datasetOut -> myHeatmap.dataset",
-          "heatmapOrdinalData.datasetOut -> myHeatmapOrdinal.dataset"
+          "heatmapOrdinalData.datasetOut -> myHeatmapOrdinal.dataset",
+          "heatmapOrdinalData.datasetOut -> myHeatmapOrdinalY.dataset"
         ]
       }
     }
