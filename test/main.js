@@ -38,6 +38,7 @@ function myApp(){
                 "myBarChart",
                 "myScatterPlot",
                 "myScatterPlotOrdinalX",
+                "myScatterPlotTimeX",
                 "myBoxPlot"
               ]
             },
@@ -80,8 +81,8 @@ function myApp(){
     "myScatterPlot": {
       "plugin": "scatterPlot",
       "state": {
-        "xAxisLabelText": "Sepal Length",
-        "xColumn": "sepal_length",
+        "xAxisLabelText": "Species",
+        "xColumn": "species",
         "yAxisLabelText": "Petal Length",
         "yColumn": "petal_length",
         "xAxisLabelTextOffset": xAxisLabelTextOffset,
@@ -96,6 +97,19 @@ function myApp(){
         "xColumn": "species",
         "yAxisLabelText": "Petal Length",
         "yColumn": "petal_length",
+        "xAxisLabelTextOffset": xAxisLabelTextOffset,
+        "yAxisLabelTextOffset": yAxisLabelTextOffset,
+        "margin": margin
+      }
+    },
+    "myScatterPlotTimeX": {
+      "plugin": "scatterPlot",
+      "state": {
+        "xAxisLabelText": "Time",
+        "xColumn": "timestamp",
+        "yAxisLabelText": "Temperature",
+        "yColumn": "temperature",
+        "circleRadius": 2,
         "xAxisLabelTextOffset": xAxisLabelTextOffset,
         "yAxisLabelTextOffset": yAxisLabelTextOffset,
         "margin": margin
@@ -202,6 +216,7 @@ function myApp(){
       "state": {
         "bindings": [
           "lineChartDataLoader.dataset -> myLineChart.dataset",
+          "lineChartDataLoader.dataset -> myScatterPlotTimeX.dataset",
           "scatterPlotDataLoader.dataset -> myScatterPlot.dataset",
           "scatterPlotDataLoader.dataset -> myScatterPlotOrdinalX.dataset",
           "scatterPlotDataLoader.dataset -> myBoxPlot.dataset",
