@@ -17,17 +17,15 @@ module.exports = function marginEditor(my, svg){
     .style("pointer-events", "all")
 
   var drag = d3.behavior.drag().on("drag", function (d) {
-
-    // Mutate the margin object.
-    my.margin[d] = {
+  
+    // Update the margin based on the side being dragged.
+    // "d" is one of "left", "right", "top", "bottom".
+    my.margin = set(my.margin, d, {
       left:    d3.event.x,
       right:  -d3.event.x,
       top:     d3.event.y,
       bottom: -d3.event.y,
-    }[d];
-
-    // Notify model-js that the margin object has been mutated.
-    my.margin = my.margin;
+    }[d]);
 
     // Hide the handles during drag.
     handles.style("fill", "none");
@@ -114,3 +112,14 @@ module.exports = function marginEditor(my, svg){
 
   });
 };
+
+// Creates a new object with the given value changed.
+// This is to approximate immutability to avoid issues that
+// crop up when multiple components reference the same margin object.
+function set(obj, property, value){
+  var newObj = {};
+  Object.keys(obj).forEach(function (d){
+    newObj[d] = (d === property) ? value : obj[d];
+  });
+  return newObj;
+}
