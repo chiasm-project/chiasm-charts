@@ -81,7 +81,10 @@ function myApp(){
         "yColumn": "temperature",
         "xAxisLabelTextOffset": xAxisLabelTextOffset,
         "yAxisLabelTextOffset": yAxisLabelTextOffset,
-        "margin": margin
+        "margin": margin,
+
+        // This tests that it is possible to specify a set of sides for the editor.
+        "marginEditor": ["left"]
       }
     },
     "scatterPlotDataLoader": {

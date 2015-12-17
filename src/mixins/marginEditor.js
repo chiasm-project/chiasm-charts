@@ -8,33 +8,43 @@ module.exports = function marginEditor(my, svg){
   // The color of the handles on hover.
   my.addPublicProperty("marginEditorFill", "rgba(0, 0, 0, 0.2)");
 
-  var data = [ "left", "right", "top", "bottom" ];
+  my.addPublicProperty("marginEditor", [ "left", "right", "top", "bottom" ]);
 
-  var handles = svg.selectAll(".margin-handle").data(data);
-  handles.enter().append("rect")
-    .attr("class", "margin-handle")
-    .style("fill", "none")
-    .style("pointer-events", "all")
+  var drag = d3.behavior.drag();
 
-  var drag = d3.behavior.drag().on("drag", function (d) {
-  
-    // Update the margin based on the side being dragged.
-    // "d" is one of "left", "right", "top", "bottom".
-    my.margin = set(my.margin, d, {
-      left:    d3.event.x,
-      right:  -d3.event.x,
-      top:     d3.event.y,
-      bottom: -d3.event.y,
-    }[d]);
+  my.when("marginEditor", function (sides){
+    var handles = svg.selectAll(".margin-handle").data(sides);
+    handles.enter().append("rect");
+    handles.exit().remove();
+    handles
+      .attr("class", "margin-handle")
+      .style("fill", "none")
+      .style("pointer-events", "all")
+    handles.call(drag);
 
-    // Hide the handles during drag.
-    handles.style("fill", "none");
+    my.handles = handles;
   });
 
-  handles.call(drag);
+  my.when(["margin", "handles"], function (margin, handles){
+    drag.on("drag", function (d) {
+    
+      // Update the margin based on the side being dragged.
+      // "d" is one of "left", "right", "top", "bottom".
+      my.margin = set(margin, d, {
+        left:    d3.event.x,
+        right:  -d3.event.x,
+        top:     d3.event.y,
+        bottom: -d3.event.y,
+      }[d]);
+
+      // Hide the handles during drag.
+      handles.style("fill", "none");
+    });
+  });
+
 
   // Fill in the handles on hover.
-  my.when("marginEditorFill", function (marginEditorFill){
+  my.when(["marginEditorFill", "handles"], function (marginEditorFill, handles){
     handles
       .on("mouseenter", function (){
         // Do not show the handle if the user is in the middle of dragging something else.
@@ -61,8 +71,8 @@ module.exports = function marginEditor(my, svg){
   });
 
   // Render the handles
-  my.when(["margin", "marginEditorWidth", "width", "height"],
-      function (margin, marginEditorWidth, width, height){
+  my.when(["handles", "margin", "marginEditorWidth", "width", "height"],
+      function (handles, margin, marginEditorWidth, width, height){
 
     var x = {
       left:   margin.left         - marginEditorWidth / 2,
