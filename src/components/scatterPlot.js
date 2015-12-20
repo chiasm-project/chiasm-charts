@@ -3,12 +3,23 @@ var Model = require("model-js");
 var ChiasmComponent = require("chiasm-component");
 var mixins = require("../mixins");
 
+// TODO split this mixin out
+function brush(my, g){
+  my.addPublicProperty("brushEnabled", false);
+  my.when("brushEnabled", function (brushEnabled){
+    if(brushEnabled){
+      console.log("brush enabled");
+    }
+  });
+}
+
 function ScatterPlot(){
 
   var my = new ChiasmComponent({
     // TODO add a size column, use sqrt scale.
     circleRadius: 5
   });
+
 
   var svg = d3.select(my.initSVG());
   mixins.backgroundColor(my, svg);
@@ -33,6 +44,9 @@ function ScatterPlot(){
 
   mixins.xAxisLabel(my, svg);
   mixins.yAxisLabel(my, svg);
+
+  //mixins.brush(my, g);
+  brush(my, g);
 
   my.xScaleRangePadding = 0.5;
   my.yScaleRangePadding = 0.5;

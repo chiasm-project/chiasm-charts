@@ -102,7 +102,8 @@ function myApp(){
         "yColumn": "petal_length",
         "xAxisLabelTextOffset": xAxisLabelTextOffset,
         "yAxisLabelTextOffset": yAxisLabelTextOffset,
-        "margin": margin
+        "margin": margin,
+        "brushEnabled": true
       }
     },
     "myScatterPlotOrdinalX": {
